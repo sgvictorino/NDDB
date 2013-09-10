@@ -48,7 +48,7 @@ custom operations, saving and loading from file system and browser localStorage 
 </li>
 <li>Sorting: <code>sort</code>, <code>reverse</code>, <code>last</code>, <code>first</code>, <code>limit</code>, <code>distinct</code>, <code>shuffle</code>
 </li>
-<li>Indexing: <code>index</code>, <code>hash</code>, <code>comparator</code>
+<li>Indexing: <code>view</code>, <code>index</code>, <code>hash</code>, <code>comparator</code>
 </li>
 <li>Custom callbacks: <code>map</code>, <code>each</code>, <code>filter</code>
 </li>
@@ -404,10 +404,8 @@ $ npm test # will run the test suite against nddb.js
 <h3>
 <a name="090" class="anchor" href="#090"><span class="octicon octicon-link"></span></a>0.9.0</h3>
 
-<pre><code>- Fixed bug with views and hashs created within constructor of inheriting class
-</code></pre>
-
 <ul>
+<li>Fixed bug with views and hashs created within constructor of inheriting class</li>
 <li>
 <code>#hash()</code> and <code>#view()</code> always creates objects of type NDDB (previously using the constructor of the inheriting class, if any)</li>
 <li>Fixed bug in loading from browser storage</li>

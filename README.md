@@ -15,7 +15,7 @@ Developer-friendly thanks to an easy api, detailed documentation, and full unit 
 
 - Selecting: `select`, `and`, `or`, `selexec`
 - Sorting: `sort`, `reverse`, `last`, `first`, `limit`, `distinct`, `shuffle`
-- Indexing: `index`, `hash`, `comparator`
+- Indexing: `view`, `index`, `hash`, `comparator`
 - Custom callbacks: `map`, `each`, `filter`
 - Updating and Deletion: `update`, `remove`, `clear`
 - Advanced operations: `split`, `join`, `concat`, `groupBy`
@@ -368,7 +368,7 @@ node make.nddb.js doc
 ## ChangeLog
 
 ### 0.9.0
-    - Fixed bug with views and hashs created within constructor of inheriting class
+  - Fixed bug with views and hashs created within constructor of inheriting class
   - `#hash()` and `#view()` always creates objects of type NDDB (previously using the constructor of the inheriting class, if any)
   - Fixed bug in loading from browser storage
   - Better error messages

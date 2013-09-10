@@ -79,13 +79,13 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Create an instance of NDDB</p>
 
-<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">NDDB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'NDDB'</span><span class="p">).</span><span class="nx">NDDB</span><span class="p">;</span>
+<div class="highlight highlight-javascript"><pre>    <span class="kd">var</span> <span class="nx">NDDB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'NDDB'</span><span class="p">).</span><span class="nx">NDDB</span><span class="p">;</span>
     <span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NDDB</span><span class="p">();</span>
 </pre></div>
 
 <p>Insert an item into the database</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span>
         <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Picasso"</span><span class="p">,</span>
         <span class="nx">title</span><span class="o">:</span> <span class="s2">"Les Demoiselles d'Avignon"</span><span class="p">,</span>
         <span class="nx">year</span><span class="o">:</span> <span class="mi">1907</span>
@@ -94,7 +94,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Import a collection of items</p>
 
-<div class="highlight"><pre>
+<div class="highlight highlight-javascript"><pre>
     <span class="kd">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Dali"</span><span class="p">,</span>
@@ -129,22 +129,22 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Retrieve the database size</p>
 
-<div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">db_size</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="c1">// 6</span>
+<div class="highlight highlight-javascript"><pre>    <span class="kd">var</span> <span class="nx">db_size</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="c1">// 6</span>
 </pre></div>
 
 <p>Select all paintings from Dali</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">);</span> <span class="c1">// 2 items</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">);</span> <span class="c1">// 2 items</span>
 </pre></div>
 
 <p>Select all portraits</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'portrait'</span><span class="p">);</span> <span class="c1">// 1 item</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'portrait'</span><span class="p">);</span> <span class="c1">// 1 item</span>
 </pre></div>
 
 <p>Fetch all paintings from Dali that are before 1928</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">)</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">)</span>
       <span class="p">.</span><span class="nx">and</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">1928</span><span class="p">);</span>
       <span class="p">.</span><span class="nx">execute</span><span class="p">()</span> 
       <span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// 1 item</span>
@@ -152,14 +152,14 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Fetch all paintings of the beginning of XX's century</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
       <span class="p">.</span><span class="nx">execute</span><span class="p">()</span>
       <span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// 2 items    </span>
 </pre></div>
 
 <p>Fetch separately all the painters and all the dates of execution of the paintings</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
       <span class="p">.</span><span class="nx">execute</span><span class="p">()</span> 
       <span class="p">.</span><span class="nx">fetchValues</span><span class="p">([</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'title'</span><span class="p">]);</span>
 
@@ -175,7 +175,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Define a global comparator function that sorts all the entries chronologically</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">globalCompator</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">globalCompator</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">year</span> <span class="o">&lt;</span> <span class="nx">o2</span><span class="p">.</span><span class="nx">year</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">year</span> <span class="o">&lt;</span> <span class="nx">o2</span><span class="p">.</span><span class="nx">year</span><span class="p">)</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
         <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -184,17 +184,17 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Sort all the items (global comparator function is automatically used)</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span>
 </pre></div>
 
 <p>Reverse the order of the items</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span> <span class="c1">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span> <span class="c1">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span>
 </pre></div>
 
 <p>Define a custom comparator function for the name of the painter, which gives highest priorities to the canvases of Picasso;</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">c</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">c</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o2</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
@@ -202,7 +202,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Sort all the paintings by painter</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">);</span> <span class="c1">// Picasso is always listed first</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">);</span> <span class="c1">// Picasso is always listed first</span>
 </pre></div>
 
 <h3>
@@ -210,7 +210,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Splits the database in sub-database, each containing semantically consistent set of entries</p>
 
-<div class="highlight"><pre>
+<div class="highlight highlight-javascript"><pre>
     <span class="c1">// Let us add some cars to our previous database of paintings</span>
     <span class="kd">var</span> <span class="nx">not_art_items</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span>
@@ -251,7 +251,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Define a custom hash function that creates a new view on each of the painters in the database;</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">hash</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">hash</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">o</span><span class="p">)</span> <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
         <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">painter</span><span class="p">;</span>
     <span class="p">});</span>
@@ -270,7 +270,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Listen to the <code>insert</code> event and modify the inserted items by adding an external index to them;</p>
 
-<div class="highlight"><pre>
+<div class="highlight highlight-javascript"><pre>
     <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="kd">function</span> <span class="nx">getMyId</span><span class="p">(){</span> <span class="k">return</span> <span class="nx">id</span><span class="o">++</span><span class="p">;</span> <span class="p">};</span>
 
@@ -284,7 +284,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Define a custom indexing function that gives fast, direct access to the items of the database;</p>
 
-<div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span><span class="s1">'pid'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span><span class="s1">'pid'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
     <span class="p">});</span>
 
@@ -313,7 +313,7 @@ custom operations, saving and loading from file system and browser localStorage 
 <h2>
 <a name="example-of-a-configuration-object" class="anchor" href="#example-of-a-configuration-object"><span class="octicon octicon-link"></span></a>Example of a configuration object</h2>
 
-<div class="highlight"><pre>
+<div class="highlight highlight-javascript"><pre>
     <span class="kd">var</span> <span class="nx">logFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">txt</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
@@ -356,7 +356,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>In the node.js environment, it is possible to save the state of the database to a file and load it afterwards.</p>
 
-<div class="highlight"><pre>
+<div class="highlight highlight-javascript"><pre>
    <span class="c1">// database exists and items inserted </span>
    <span class="nx">db</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="s1">'./db.out'</span><span class="p">);</span>
 
@@ -380,14 +380,14 @@ $ npm test # will run the test suite against nddb.js
 
 <p>Create your customized build of NDDB using the make file in the <code>bin</code> directory</p>
 
-<div class="highlight"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">build</span> <span class="c1">// Standard build, </span>
+<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">build</span> <span class="c1">// Standard build, </span>
 <span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">build</span> <span class="o">-</span><span class="nx">a</span> <span class="o">-</span><span class="nx">o</span> <span class="nx">nddb</span><span class="o">-</span><span class="nx">full</span> <span class="c1">// Full build</span>
 </pre></div>
 
 <h3>
 <a name="help" class="anchor" href="#help"><span class="octicon octicon-link"></span></a>Help</h3>
 
-<div class="highlight"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span><span class="nx">help</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span><span class="nx">help</span>
 </pre></div>
 
 <h2>
@@ -395,13 +395,41 @@ $ npm test # will run the test suite against nddb.js
 
 <p>Create html API documentation using the make file in the bin directory  </p>
 
-<div class="highlight"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">doc</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">doc</span>
 </pre></div>
 
 <h2>
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>ChangeLog</h2>
 
 <h3>
+<a name="090" class="anchor" href="#090"><span class="octicon octicon-link"></span></a>0.9.0</h3>
+
+<pre><code>- Fixed bug with views and hashs created within constructor of inheriting class
+</code></pre>
+
+<ul>
+<li>
+<code>#hash()</code> and <code>#view()</code> always creates objects of type NDDB (previously using the constructor of the inheriting class, if any)</li>
+<li>Fixed bug in loading from browser storage</li>
+<li>Better error messages</li>
+<li>Code for Node.js and browser clearly separated</li>
+<li>NDDB methods throw errors instead of returning false if input parameters are
+incorrect</li>
+</ul><h3>
+<a name="0810" class="anchor" href="#0810"><span class="octicon octicon-link"></span></a>0.8.10</h3>
+
+<ul>
+<li>Support for shared objects across all breeded instances of NDDB</li>
+<li>NDDB.log -&gt; this.log</li>
+<li>
+<code>#initLog()</code> to execute the log function in the proper context</li>
+<li>Fixed indexes and views not appearing on empty DBs</li>
+</ul><h3>
+<a name="086" class="anchor" href="#086"><span class="octicon octicon-link"></span></a>0.8.6</h3>
+
+<ul>
+<li>Support for property names containing dots</li>
+</ul><h3>
 <a name="085" class="anchor" href="#085"><span class="octicon octicon-link"></span></a>0.8.5</h3>
 
 <ul>

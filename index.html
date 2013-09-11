@@ -332,7 +332,10 @@ custom operations, saving and loading from file system and browser localStorage 
       <span class="nx">I</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of indexing functions</span>
       <span class="nx">V</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of view functions</span>
       <span class="nx">log</span><span class="o">:</span> <span class="nx">logFunc</span><span class="p">,</span>       <span class="c1">// Default stdout</span>
-      <span class="nx">nddb_pointer</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>    <span class="c1">// Set the pointer to element of index 4. </span>
+      <span class="nx">nddb_pointer</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>    <span class="c1">// Set the pointer to element of index 4</span>
+      <span class="nx">globalCompare</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// comparing code</span>
+      <span class="p">},</span>
       <span class="nx">operators</span><span class="o">:</span> <span class="p">{</span>       <span class="c1">// Extends NDDB with new operators for select queries</span>
         <span class="s1">'%'</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">comparator</span><span class="p">){</span>
               <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
@@ -402,6 +405,14 @@ $ npm test # will run the test suite against nddb.js
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>ChangeLog</h2>
 
 <h3>
+<a name="091" class="anchor" href="#091"><span class="octicon octicon-link"></span></a>0.9.1</h3>
+
+<ul>
+<li>On request, views, and hashes are now hybrid. They are NDDB object, but they tries to load all current settings, avoiding to creating infinite loops</li>
+<li>
+<code>#cloneSettings()</code> accepts a leaveOut parameter</li>
+<li>Empty hash objects are created by the constructor, if an hash function is specified</li>
+</ul><h3>
 <a name="090" class="anchor" href="#090"><span class="octicon octicon-link"></span></a>0.9.0</h3>
 
 <ul>

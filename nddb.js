@@ -638,7 +638,7 @@
     }
 
     /**
-     * ## NDDB._getCons
+     * ## NDDB._getConstrName
      *
      * Returns 'NDDB' or the name of the inheriting class.
      *

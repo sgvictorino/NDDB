@@ -137,6 +137,17 @@ custom operations, saving and loading from file system and browser localStorage 
 <div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">);</span> <span class="c1">// 2 items</span>
 </pre></div>
 
+<p>Case sensitive <code>LIKE</code> operator:</p>
+
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'LIKE'</span><span class="p">,</span> <span class="s1">'M_net'</span><span class="p">);</span> <span class="c1">// 3 items</span>
+</pre></div>
+
+<p>Select on multiple properties (<code>*</code>) with case insensitive <code>LIKE</code>:</p>
+
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'*'</span><span class="p">,</span> <span class="s1">'iLIKE'</span><span class="p">,</span> <span class="s1">'%e%'</span><span class="p">);</span> <span class="c1">// All items</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">([</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'portrait'</span><span class="p">],</span> <span class="s1">'iLIKE'</span><span class="p">,</span> <span class="s1">'%e%'</span><span class="p">)</span> <span class="c1">// 5 items</span>
+</pre></div>
+
 <p>Select all portraits</p>
 
 <div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'portrait'</span><span class="p">);</span> <span class="c1">// 1 item</span>
@@ -194,7 +205,7 @@ custom operations, saving and loading from file system and browser localStorage 
 
 <p>Define a custom comparator function for the name of the painter, which gives highest priorities to the canvases of Picasso;</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">c</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">compare</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">o2</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
@@ -332,17 +343,22 @@ custom operations, saving and loading from file system and browser localStorage 
       <span class="nx">I</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of indexing functions</span>
       <span class="nx">V</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of view functions</span>
       <span class="nx">log</span><span class="o">:</span> <span class="nx">logFunc</span><span class="p">,</span>       <span class="c1">// Default stdout</span>
+      <span class="nx">logCtx</span><span class="o">:</span> <span class="nx">logCtx</span>      <span class="c1">// The context of execution for the log function</span>
       <span class="nx">nddb_pointer</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>    <span class="c1">// Set the pointer to element of index 4</span>
       <span class="nx">globalCompare</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// comparing code</span>
       <span class="p">},</span>
-      <span class="nx">operators</span><span class="o">:</span> <span class="p">{</span>       <span class="c1">// Extends NDDB with new operators for select queries</span>
+      <span class="nx">filters</span><span class="o">:</span> <span class="p">{</span>          <span class="c1">// Extends NDDB with new operators for select queries</span>
         <span class="s1">'%'</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">comparator</span><span class="p">){</span>
               <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
                 <span class="k">if</span> <span class="p">((</span><span class="nx">elem</span><span class="p">[</span><span class="nx">d</span><span class="p">]</span> <span class="o">%</span> <span class="nx">value</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
                   <span class="k">return</span> <span class="nx">elem</span><span class="p">;</span>
                 <span class="p">}</span>
               <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nx">share</span><span class="o">:</span> <span class="p">{</span>           <span class="c1">// Contains objects that are copied by reference to</span>
+                         <span class="c1">// in every new instance of NDDB.</span>
+        <span class="nx">sharedObj</span><span class="o">:</span> <span class="nx">sharedObj</span>
       <span class="p">}</span>
     <span class="p">}</span>
 
@@ -405,6 +421,29 @@ $ npm test # will run the test suite against nddb.js
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>ChangeLog</h2>
 
 <h3>
+<a name="095" class="anchor" href="#095"><span class="octicon octicon-link"></span></a>0.9.5</h3>
+
+<ul>
+<li>Operators -&gt; Filters. <code>#addFilter()</code> can add a new filter.</li>
+<li>
+<code>LIKE</code>, and <code>iLIKE</code> filters added.</li>
+<li>The symbol <code>*</code> can be used to select on any property of the object.</li>
+<li>
+<code>#select()</code> accepts an array containing the name of the properties that will be used for the selection.</li>
+<li>
+<code>#shuffle()</code> by default returns a new object, and does not alter the order of the elements in the database. A parameter can control it.</li>
+<li>More efficient updating of elements in the index</li>
+<li>Options <code>log</code> and <code>logCtx</code> are not cloned, by copied by reference. This avoid trying copying potential cyclical structures.</li>
+</ul><h3>
+<a name="092" class="anchor" href="#092"><span class="octicon octicon-link"></span></a>0.9.2</h3>
+
+<ul>
+<li>
+<code>#remove()</code> -&gt; <code>#removeAllEntries()</code>
+</li>
+<li>
+<code>#NDDBIndex.pop() -&gt; #NDDBIndex.remove()</code> pop is deprecated now</li>
+</ul><h3>
 <a name="091" class="anchor" href="#091"><span class="octicon octicon-link"></span></a>0.9.1</h3>
 
 <ul>

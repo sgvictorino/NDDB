@@ -96,6 +96,19 @@ Select all paintings from Dali
 ```javascript
     db.select('painter', '=', 'Dali'); // 2 items
 ```
+
+Case sensitive `LIKE` operator:
+
+```javascript
+    db.select('painter', 'LIKE', 'M_net'); // 3 items
+```
+
+Select on multiple properties (`*`) with case insensitive `LIKE`:
+
+```javascript
+    db.select('*', 'iLIKE', '%e%'); // All items
+    db.select(['painter', 'portrait'], 'iLIKE', '%e%') // 5 items
+```
     
 Select all portraits
 
@@ -160,7 +173,7 @@ Reverse the order of the items
 Define a custom comparator function for the name of the painter, which gives highest priorities to the canvases of Picasso;
 
 ```javascript
-    db.c('painter', function (o1, o2) {
+    db.compare('painter', function (o1, o2) {
         if (o1.painter === 'Picasso') return -1;
         if (o2.painter === 'Picasso') return 1;
     }
@@ -300,17 +313,22 @@ Define a custom indexing function that gives fast, direct access to the items of
       I:  {},             // Collection of indexing functions
       V:  {},             // Collection of view functions
       log: logFunc,       // Default stdout
+      logCtx: logCtx      // The context of execution for the log function
       nddb_pointer: 4,    // Set the pointer to element of index 4
       globalCompare: function(o1, o2) {
         // comparing code
       },
-      operators: {       // Extends NDDB with new operators for select queries
+      filters: {          // Extends NDDB with new operators for select queries
         '%': function(d, value, comparator){
               return function(elem) {
                 if ((elem[d] % value) === 0) {
                   return elem;
                 }
               }
+      },
+      share: {           // Contains objects that are copied by reference to
+                         // in every new instance of NDDB.
+        sharedObj: sharedObj
       }
     }
     
@@ -369,6 +387,19 @@ node make.nddb.js doc
 ```
 
 ## ChangeLog
+
+### 0.9.5
+  - Operators -> Filters. `#addFilter()` can add a new filter.
+  - `LIKE`, and `iLIKE` filters added.
+  - The symbol `*` can be used to select on any property of the object.
+  - `#select()` accepts an array containing the name of the properties that will be used for the selection.
+  - `#shuffle()` by default returns a new object, and does not alter the order of the elements in the database. A parameter can control it.
+  - More efficient updating of elements in the index
+  - Options `log` and `logCtx` are not cloned, by copied by reference. This avoid trying copying potential cyclical structures.
+
+### 0.9.2
+  - `#remove()` -> `#removeAllEntries()`
+  - `#NDDBIndex.pop() -> #NDDBIndex.remove()` pop is deprecated now
 
 ### 0.9.1
   - On request, views, and hashes are now hybrid. They are NDDB object, but they tries to load all current settings, avoiding to creating infinite loops

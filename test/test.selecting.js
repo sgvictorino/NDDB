@@ -63,7 +63,7 @@ describe('NDDB Selecting', function() {
              .db.length.should.equal(1); 
         });
         
-        it('should select all painting between 1900 and 1999', function(){
+        it('should select all painting *not* between 1900 and 1999', function(){
            db.select('year', '<>', [1900, 1999])
                 .execute()
                 .db.length.should.equal(3); 
@@ -73,6 +73,12 @@ describe('NDDB Selecting', function() {
             db.select('painter', 'in', ['Dali','Monet'])
                 .execute()
                 .db.length.should.equal(4); 
+        });
+
+        it('should select all paintings *not* made by Dali and Monet', function(){
+            db.select('painter', '!in', ['Dali','Monet'])
+                .execute()
+                .db.length.should.equal(2); 
         });
       
         it('passing from parameter to >< should work like >', function(){
@@ -89,6 +95,12 @@ describe('NDDB Selecting', function() {
            db.select('title', '=', 'Das finstere Spiel oder Unheilvolles Spiel')
            	 .execute()
            	 .db.length.should.equal(0); 
+        });
+
+        it('selecting one an not-existing field should not return results', function(){
+           db.select('year2', '>', 1)
+           	.execute()
+           	.db.length.should.equal(0); 
         });
     });
     
@@ -137,7 +149,6 @@ describe('NDDB Selecting', function() {
      
     });  
 
-    
     describe('#select more than 3 conditions',function() {
         
         it('should select all paintings from Dali OR Monet that are from before 1928 OR are portrait', function(){

@@ -1,52 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>Nddb by nodeGame</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Nddb by nodeGame</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
+    <div class="wrapper">
+      <header>
         <h1>Nddb</h1>
-        <h2>Javascript lightweight N-dimensional database</h2>
-        <a href="https://github.com/nodeGame/NDDB" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
-
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a name="nddb" class="anchor" href="#nddb"><span class="octicon octicon-link"></span></a>NDDB</h1>
+        <p>Javascript lightweight N-dimensional database</p>
+        <p class="view"><a href="https://github.com/nodeGame/NDDB">View the Project on GitHub <small>nodeGame/NDDB</small></a></p>
+        <ul>
+          <li><a href="https://github.com/nodeGame/NDDB/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/nodeGame/NDDB/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/nodeGame/NDDB">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="nddb" class="anchor" href="#nddb" aria-hidden="true"><span class="octicon octicon-link"></span></a>NDDB</h1>
 
 <p><a href="https://travis-ci.org/nodeGame/NDDB"><img src="https://travis-ci.org/nodeGame/NDDB.png?branch=master" alt="Build Status"></a></p>
 
 <p>NDDB is a powerful and versatile object database for node.js and the browser.</p>
 
-<hr><p>NDDB (N-Dimensional DataBase) supports indexes, views, joins, group-by, basic statistics, 
-custom operations, saving and loading from file system and browser localStorage and much more.</p>
+<hr>
 
-<p>Developer-friendly thanks to an easy api, detailed documentation, and full unit tests coverage.</p>
+<p>NDDB (N-Dimensional DataBase) supports indexes, views, hashes, joins,
+group-by, basic statistics, custom operations, saving and loading from
+file system and browser localStorage, and much more.</p>
+
+<p>Developer-friendly thanks to an easy api, detailed documentation, and
+<strong>100%</strong> test coverage.</p>
 
 <h2>
-<a name="list-of-features" class="anchor" href="#list-of-features"><span class="octicon octicon-link"></span></a>List of features</h2>
+<a id="list-of-features" class="anchor" href="#list-of-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of features</h2>
 
 <ul>
-<li>Selecting: <code>select</code>, <code>and</code>, <code>or</code>, <code>selexec</code>
+<li>Selecting: <code>select</code>, <code>and</code>, <code>or</code>
 </li>
-<li>Sorting: <code>sort</code>, <code>reverse</code>, <code>last</code>, <code>first</code>, <code>limit</code>, <code>distinct</code>, <code>shuffle</code>
+<li>Sorting: <code>sort</code>, <code>reverse</code>, <code>last</code>, <code>first</code>, <code>limit</code>, <code>distinct</code>,
+<code>shuffle</code>
 </li>
 <li>Indexing: <code>view</code>, <code>index</code>, <code>hash</code>, <code>comparator</code>
 </li>
@@ -56,7 +60,8 @@ custom operations, saving and loading from file system and browser localStorage 
 </li>
 <li>Advanced operations: <code>split</code>, <code>join</code>, <code>concat</code>, <code>groupBy</code>
 </li>
-<li>Fetching and transformations: <code>fetch</code>, <code>fetchArray</code>, <code>fetchKeyArray</code>, <code>fetchValues</code>, <code>fetchSubObj</code>
+<li>Fetching and transformations: <code>fetch</code>, <code>fetchArray</code>,
+<code>fetchKeyArray</code>, <code>fetchValues</code>, <code>fetchSubObj</code>
 </li>
 <li>Statistics operator: <code>count</code>, <code>max</code>, <code>min</code>, <code>mean</code>, <code>stddev</code>
 </li>
@@ -72,560 +77,420 @@ custom operations, saving and loading from file system and browser localStorage 
 </li>
 <li>Saving and Loading: <code>save</code>, <code>load</code>, <code>loadCSV</code>
 </li>
-</ul><p>The complete NDDB api documentation is available <a href="http://nodegame.github.com/NDDB/docs/nddb.js.html">here</a>.</p>
+</ul>
+
+<p>The complete NDDB api documentation is available
+<a href="http://nodegame.github.com/NDDB/docs/nddb.js.html">here</a>.</p>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Create an instance of NDDB</p>
+<p>Load the library in Node.js:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="kd">var</span> <span class="nx">NDDB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'NDDB'</span><span class="p">).</span><span class="nx">NDDB</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NDDB</span><span class="p">();</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> NDDB <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>NDDB<span class="pl-pds">'</span></span>).NDDB;</pre></div>
 
-<p>Insert an item into the database</p>
+<p>or in the browser add a script tag in the page:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span>
-        <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Picasso"</span><span class="p">,</span>
-        <span class="nx">title</span><span class="o">:</span> <span class="s2">"Les Demoiselles d'Avignon"</span><span class="p">,</span>
-        <span class="nx">year</span><span class="o">:</span> <span class="mi">1907</span>
-    <span class="p">});</span>
-</pre></div>
+<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- Must load a version of NDDB that includes JSUS (see 'build/' dir) --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/path/to/nddb.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
-<p>Import a collection of items</p>
+<p>Create an instance of NDDB:</p>
 
-<div class="highlight highlight-javascript"><pre>
-    <span class="kd">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Dali"</span><span class="p">,</span>
-            <span class="nx">title</span><span class="o">:</span> <span class="s2">"Portrait of Paul Eluard"</span><span class="p">,</span>
-            <span class="nx">year</span><span class="o">:</span> <span class="mi">1929</span><span class="p">,</span>
-            <span class="nx">portrait</span><span class="o">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Dali"</span><span class="p">,</span>
-            <span class="nx">title</span><span class="o">:</span> <span class="s2">"Barcelonese Mannequin"</span><span class="p">,</span>
-            <span class="nx">year</span><span class="o">:</span> <span class="mi">1927</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Monet"</span><span class="p">,</span>
-            <span class="nx">title</span><span class="o">:</span> <span class="s2">"Water Lilies"</span><span class="p">,</span>
-            <span class="nx">year</span><span class="o">:</span> <span class="mi">1906</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Monet"</span><span class="p">,</span>
-            <span class="nx">title</span><span class="o">:</span> <span class="s2">"Wheatstacks (End of Summer)"</span><span class="p">,</span>
-            <span class="nx">year</span><span class="o">:</span> <span class="mi">1891</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="nx">painter</span><span class="o">:</span> <span class="s2">"Manet"</span><span class="p">,</span>
-            <span class="nx">title</span><span class="o">:</span> <span class="s2">"Olympia"</span><span class="p">,</span>
-            <span class="nx">year</span><span class="o">:</span> <span class="mi">1863</span>
-        <span class="p">}</span>
-    <span class="p">];</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();</pre></div>
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">importDB</span><span class="p">(</span><span class="nx">items</span><span class="p">);</span>
-</pre></div>
+<p>Insert an item into the database:</p>
 
-<p>Retrieve the database size</p>
+<div class="highlight highlight-javascript"><pre>db.insert({
+    painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Picasso<span class="pl-pds">"</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Les Demoiselles d'Avignon<span class="pl-pds">"</span></span>,
+    year<span class="pl-k">:</span> <span class="pl-c1">1907</span>
+});</pre></div>
 
-<div class="highlight highlight-javascript"><pre>    <span class="kd">var</span> <span class="nx">db_size</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="c1">// 6</span>
-</pre></div>
+<p>Import a collection of items:</p>
 
-<p>Select all paintings from Dali</p>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> items <span class="pl-k">=</span> [
+    {
+        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Portrait of Paul Eluard<span class="pl-pds">"</span></span>,
+        year<span class="pl-k">:</span> <span class="pl-c1">1929</span>,
+        portrait<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    {
+        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Barcelonese Mannequin<span class="pl-pds">"</span></span>,
+        year<span class="pl-k">:</span> <span class="pl-c1">1927</span>
+    },
+    {
+        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Water Lilies<span class="pl-pds">"</span></span>,
+        year<span class="pl-k">:</span> <span class="pl-c1">1906</span>
+    },
+    {
+        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Wheatstacks (End of Summer)<span class="pl-pds">"</span></span>,
+        year<span class="pl-k">:</span> <span class="pl-c1">1891</span>
+    },
+    {
+        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Manet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Olympia<span class="pl-pds">"</span></span>,
+        year<span class="pl-k">:</span> <span class="pl-c1">1863</span>
+    }
+];
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">);</span> <span class="c1">// 2 items</span>
-</pre></div>
+db.importDB(items);</pre></div>
+
+<p>Retrieve the database size:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> db_size <span class="pl-k">=</span> db.<span class="pl-sc">size</span>(); <span class="pl-c">// 6</span></pre></div>
+
+<h3>
+<a id="select-items" class="anchor" href="#select-items" aria-hidden="true"><span class="octicon octicon-link"></span></a>Select Items</h3>
+
+<p>Select statements must begin with <code>select</code>, and can be concatened by
+any number of subsequent <code>and</code> and <code>or</code> statements. The comparison in
+select statements is performed using three input parameters: </p>
+
+<ul>
+<li>'property'</li>
+<li>'operator'</li>
+<li>any additional number of arguments required by operator</li>
+</ul>
+
+<p>Available operators include standard logical operators:</p>
+
+<ul>
+<li>
+<code>=</code>, <code>==</code>, <code>!=</code>, `<code>&gt;</code>, &gt;=<code>,</code>&lt;<code>,</code>&lt;=`,</li>
+</ul>
+
+<p>or advanced comparison operators:</p>
+
+<ul>
+<li>
+<code>E</code>: field exists (can be omitted, it is the default one)</li>
+<li>
+<code>&gt;&lt;</code>: between values (expects array)</li>
+<li>
+<code>&lt;&gt;</code>: not between values (expects array)</li>
+<li>
+<code>in</code>: element is found in array (expects array)</li>
+<li>
+<code>!in</code>: element is noi found in array (expects array)</li>
+<li>
+<code>LIKE</code>: string SQL LIKE (case sensitive)</li>
+<li>
+<code>iLIKE</code>: string SQL LIKE (case insensitive)</li>
+</ul>
+
+<p>It is possible to access and compare nested properties simply
+separating them with <code>.</code>.</p>
+
+<p>After a selection is finished, items can be returned using one of the
+<code>fetch</code> statements.</p>
+
+<h4>
+<a id="select-examples" class="anchor" href="#select-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Select Examples</h4>
+
+<p>Select all paintings from Dali:</p>
+
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>); <span class="pl-c">// 2 items</span></pre></div>
 
 <p>Case sensitive <code>LIKE</code> operator:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'LIKE'</span><span class="p">,</span> <span class="s1">'M_net'</span><span class="p">);</span> <span class="c1">// 3 items</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>LIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>M_net<span class="pl-pds">'</span></span>); <span class="pl-c">// 3 items</span></pre></div>
 
 <p>Select on multiple properties (<code>*</code>) with case insensitive <code>LIKE</code>:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'*'</span><span class="p">,</span> <span class="s1">'iLIKE'</span><span class="p">,</span> <span class="s1">'%e%'</span><span class="p">);</span> <span class="c1">// All items</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">([</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'portrait'</span><span class="p">],</span> <span class="s1">'iLIKE'</span><span class="p">,</span> <span class="s1">'%e%'</span><span class="p">)</span> <span class="c1">// 5 items</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>*<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>); <span class="pl-c">// All items</span>
+db.<span class="pl-s3">select</span>([<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>], <span class="pl-s1"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>) <span class="pl-c">// 5 items</span></pre></div>
 
-<p>Select all portraits</p>
+<p>Select all portraits:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'portrait'</span><span class="p">);</span> <span class="c1">// 1 item</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>); <span class="pl-c">// 1 item</span></pre></div>
 
-<p>Fetch all paintings from Dali that are before 1928</p>
+<p>Fetch all paintings from Dali that are before 1928:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'Dali'</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">and</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">1928</span><span class="p">);</span>
-      <span class="p">.</span><span class="nx">execute</span><span class="p">()</span> 
-      <span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// 1 item</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>)
+  .and(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&lt;<span class="pl-pds">'</span></span>, <span class="pl-c1">1928</span>);
+  .fetch(); <span class="pl-c">// 1 item</span></pre></div>
 
-<p>Fetch all paintings of the beginning of XX's century</p>
+<p>Fetch all paintings of the beginning of XX's century:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
-      <span class="p">.</span><span class="nx">execute</span><span class="p">()</span>
-      <span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// 2 items    </span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>    db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
+      .fetch(); <span class="pl-c">// 2 items</span></pre></div>
 
-<p>Fetch separately all the painters and all the dates of execution of the paintings</p>
+<p>Fetch separately all the painters and all the dates of the paintings:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'&gt;&lt;'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1910</span><span class="p">])</span>
-      <span class="p">.</span><span class="nx">execute</span><span class="p">()</span> 
-      <span class="p">.</span><span class="nx">fetchValues</span><span class="p">([</span><span class="s1">'painter'</span><span class="p">,</span> <span class="s1">'title'</span><span class="p">]);</span>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
+  .fetchValues([<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>]);
 
-<span class="c1">// { painter: [ 'Jesus', 'Dali', 'Dali', 'Monet', 'Monet', 'Manet' ],</span>
-<span class="c1">//   year: [ 0, 1929, 1927, 1906, 1891, 1863 ] }</span>
-</pre></div>
-
-<h2>
-<a name="advanced-commands" class="anchor" href="#advanced-commands"><span class="octicon octicon-link"></span></a>Advanced commands</h2>
+<span class="pl-c">// { painter: [ 'Jesus', 'Dali', 'Dali', 'Monet', 'Monet', 'Manet' ],</span>
+<span class="pl-c">//   year: [ 0, 1929, 1927, 1906, 1891, 1863 ] }</span></pre></div>
 
 <h3>
-<a name="sorting" class="anchor" href="#sorting"><span class="octicon octicon-link"></span></a>Sorting</h3>
+<a id="sorting" class="anchor" href="#sorting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sorting</h3>
 
-<p>Define a global comparator function that sorts all the entries chronologically</p>
+<p>Define a global comparator function that sorts all the entries chronologically:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">globalCompator</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">year</span> <span class="o">&lt;</span> <span class="nx">o2</span><span class="p">.</span><span class="nx">year</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">year</span> <span class="o">&lt;</span> <span class="nx">o2</span><span class="p">.</span><span class="nx">year</span><span class="p">)</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
-        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">};</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre><span class="pl-s3">db</span>.<span class="pl-en">globalCompator</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
+    <span class="pl-k">if</span> (o1.year <span class="pl-k">&lt;</span> o2.year) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    <span class="pl-k">if</span> (o1.year <span class="pl-k">&lt;</span> o2.year) <span class="pl-k">return</span> <span class="pl-c1">2</span>;
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+};</pre></div>
 
-<p>Sort all the items (global comparator function is automatically used)</p>
+<p>Sort all the items (global comparator function is automatically used):</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">sort</span>(); <span class="pl-c">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span></pre></div>
 
-<p>Reverse the order of the items</p>
+<p>Reverse the order of the items:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span> <span class="c1">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">reverse</span>(); <span class="pl-c">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span></pre></div>
 
-<p>Define a custom comparator function for the name of the painter, which gives highest priorities to the canvases of Picasso;</p>
+<p>Define a custom comparator function for the name of the painter, which
+gives highest priorities to the canvases of Picasso;</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">compare</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">o1</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">o2</span><span class="p">.</span><span class="nx">painter</span> <span class="o">===</span> <span class="s1">'Picasso'</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.compare(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
+    <span class="pl-k">if</span> (o1.painter <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-k">-</span><span class="pl-c1">1</span>;
+    <span class="pl-k">if</span> (o2.painter <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+}</pre></div>
 
 <p>Sort all the paintings by painter</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">);</span> <span class="c1">// Picasso is always listed first</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">sort</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>); <span class="pl-c">// Picasso is always listed first</span></pre></div>
 
 <h3>
-<a name="views" class="anchor" href="#views"><span class="octicon octicon-link"></span></a>Views</h3>
+<a id="views" class="anchor" href="#views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views</h3>
 
-<p>Splits the database in sub-database, each containing semantically consistent set of entries</p>
+<p>Splits the database in sub-database, each containing semantically
+consistent set of entries:</p>
 
-<div class="highlight highlight-javascript"><pre>
-    <span class="c1">// Let us add some cars to our previous database of paintings</span>
-    <span class="kd">var</span> <span class="nx">not_art_items</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-          <span class="nx">car</span><span class="o">:</span> <span class="s2">"Ferrari"</span><span class="p">,</span>
-          <span class="nx">model</span><span class="o">:</span> <span class="s2">"F10"</span><span class="p">,</span>
-          <span class="nx">speed</span><span class="o">:</span> <span class="mi">350</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="nx">car</span><span class="o">:</span> <span class="s2">"Fiat"</span><span class="p">,</span>
-          <span class="nx">model</span><span class="o">:</span> <span class="s2">"500"</span><span class="p">,</span>
-          <span class="nx">speed</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-          <span class="nx">car</span><span class="o">:</span> <span class="s2">"BMW"</span><span class="p">,</span>
-          <span class="nx">model</span><span class="o">:</span> <span class="s2">"Z4"</span><span class="p">,</span>
-          <span class="nx">speed</span><span class="o">:</span> <span class="mi">250</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">];</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// Let us add some cars to our previous database of paintings.</span>
+<span class="pl-s">var</span> not_art_items <span class="pl-k">=</span> [
+    {
+      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Ferrari<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>F10<span class="pl-pds">"</span></span>,
+      speed<span class="pl-k">:</span> <span class="pl-c1">350</span>,
+    },
+    {
+      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Fiat<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>500<span class="pl-pds">"</span></span>,
+      speed<span class="pl-k">:</span> <span class="pl-c1">100</span>,
+    },
+    {
+      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>BMW<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Z4<span class="pl-pds">"</span></span>,
+      speed<span class="pl-k">:</span> <span class="pl-c1">250</span>,
+    },
+];
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">view</span><span class="p">(</span><span class="s1">'art'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">painter</span><span class="p">;</span>
-    <span class="p">});</span>
+db.view(<span class="pl-s1"><span class="pl-pds">'</span>art<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+  <span class="pl-k">return</span> o.painter;
+});
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">view</span><span class="p">(</span><span class="s1">'cars'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">car</span><span class="p">;</span>
-    <span class="p">});</span>
+db.view(<span class="pl-s1"><span class="pl-pds">'</span>cars<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+  <span class="pl-k">return</span> o.car;
+});
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">rebuildIndexes</span><span class="p">();</span>
+db.rebuildIndexes();
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>          <span class="c1">// 9</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">art</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>      <span class="c1">// NDDB with 6 art entries</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">cars</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>     <span class="c1">// NDDB with 3 car entries</span>
-
-</pre></div>
+db.<span class="pl-sc">size</span>();          <span class="pl-c">// 9</span>
+db.art.<span class="pl-sc">size</span>();      <span class="pl-c">// NDDB with 6 art entries</span>
+db.cars.<span class="pl-sc">size</span>();     <span class="pl-c">// NDDB with 3 car entries</span></pre></div>
 
 <h3>
-<a name="hashing" class="anchor" href="#hashing"><span class="octicon octicon-link"></span></a>Hashing</h3>
+<a id="hashing" class="anchor" href="#hashing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hashing</h3>
 
-<p>Define a custom hash function that creates a new view on each of the painters in the database;</p>
+<p>Define a custom hash function that creates a new view on each of the
+painters in the database:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">hash</span><span class="p">(</span><span class="s1">'painter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">o</span><span class="p">)</span> <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
-        <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">painter</span><span class="p">;</span>
-    <span class="p">});</span>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-sc">hash</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>o) <span class="pl-k">return</span> <span class="pl-c1">undefined</span>;
+    <span class="pl-k">return</span> o.painter;
+});
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">rebuildIndexes</span><span class="p">();</span>
+db.rebuildIndexes();
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>          <span class="c1">// 6, unchanged;</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">Picasso</span><span class="p">;</span> <span class="c1">// NDDB with 1 element in db</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">Monet</span>    <span class="c1">// NDDB with 2 elements in db</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">Manet</span>    <span class="c1">// NDDB with 1 elements in db</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">Dali</span>     <span class="c1">// NDDB with 2 elements in db</span>
-</pre></div>
-
-<h3>
-<a name="listenting-to-events" class="anchor" href="#listenting-to-events"><span class="octicon octicon-link"></span></a>Listenting to events</h3>
-
-<p>Listen to the <code>insert</code> event and modify the inserted items by adding an external index to them;</p>
-
-<div class="highlight highlight-javascript"><pre>
-    <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="kd">function</span> <span class="nx">getMyId</span><span class="p">(){</span> <span class="k">return</span> <span class="nx">id</span><span class="o">++</span><span class="p">;</span> <span class="p">};</span>
-
-    <span class="nx">db</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'insert'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">o</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">getMyId</span><span class="p">();</span>
-    <span class="p">});</span>
-</pre></div>
+db.<span class="pl-sc">size</span>();          <span class="pl-c">// 6, unchanged;</span>
+db.painter.Picasso; <span class="pl-c">// NDDB with 1 element in db</span>
+db.painter.Monet    <span class="pl-c">// NDDB with 2 elements in db</span>
+db.painter.Manet    <span class="pl-c">// NDDB with 1 elements in db</span>
+db.painter.Dali     <span class="pl-c">// NDDB with 2 elements in db</span></pre></div>
 
 <h3>
-<a name="indexes" class="anchor" href="#indexes"><span class="octicon octicon-link"></span></a>Indexes</h3>
+<a id="listenting-to-events" class="anchor" href="#listenting-to-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Listenting to events</h3>
 
-<p>Define a custom indexing function that gives fast, direct access to the items of the database;</p>
+<p>Listen to the <code>insert</code> event and modify the inserted items by adding
+an external index to them:</p>
 
-<div class="highlight highlight-javascript"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">index</span><span class="p">(</span><span class="s1">'pid'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
-    <span class="p">});</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> id <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+<span class="pl-st">function</span> <span class="pl-en">getMyId</span>(){ <span class="pl-k">return</span> id<span class="pl-k">++</span>; };
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">rebuildIndexes</span><span class="p">();</span>
+db.on(<span class="pl-s1"><span class="pl-pds">'</span>insert<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+    o.painter.<span class="pl-sc">id</span> <span class="pl-k">=</span> getMyId();
+});</pre></div>
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">pid</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">name</span><span class="p">;</span> <span class="c1">// Picasso</span>
+<h3>
+<a id="indexes" class="anchor" href="#indexes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Indexes</h3>
 
-    <span class="nx">db</span><span class="p">.</span><span class="nx">pid</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span>
-      <span class="nx">comment</span><span class="o">:</span> <span class="s2">"Good job Pablo!"</span>
-    <span class="p">});</span>
+<p>Define a custom indexing function that gives fast, direct access to
+the items of the database;</p>
 
-    <span class="c1">// Changes are reflected in the main database    </span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">selexec</span><span class="p">(</span><span class="s1">'comment'</span><span class="p">).</span><span class="nx">count</span><span class="p">();</span> <span class="c1">// 1</span>
+<div class="highlight highlight-javascript"><pre>db.<span class="pl-sc">index</span>(<span class="pl-s1"><span class="pl-pds">'</span>pid<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+    <span class="pl-k">return</span> o.<span class="pl-sc">id</span>;
+});
 
-    <span class="kd">var</span> <span class="nx">picasso</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">pid</span><span class="p">.</span><span class="nx">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="c1">//(-1)</span>
+db.rebuildIndexes();
 
-    <span class="c1">// Get all available keys in the index</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">getAllKeys</span><span class="p">();</span> <span class="c1">// ['0','1', ... ]</span>
+db.pid.get(<span class="pl-c1">0</span>).<span class="pl-sc">name</span>; <span class="pl-c">// Picasso</span>
 
-    <span class="c1">// Get all elements indexed by their key in one object</span>
-    <span class="nx">db</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">getAllKeyElements</span><span class="p">();</span> 
+db.pid.update(<span class="pl-c1">0</span>, {
+  comment<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Good job Pablo!<span class="pl-pds">"</span></span>
+});
 
-</pre></div>
+<span class="pl-c">// Counts items in selection.</span>
+db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>comment<span class="pl-pds">'</span></span>).count(); <span class="pl-c">// 1</span>
+
+<span class="pl-s">var</span> picasso <span class="pl-k">=</span> db.pid.<span class="pl-s3">remove</span>(<span class="pl-c1">0</span>);
+db.<span class="pl-sc">size</span>(); <span class="pl-c">// (0)</span>
+
+<span class="pl-c">// Get all available keys in the index</span>
+db.painter.getAllKeys(); <span class="pl-c">// ['0','1', ... ]</span>
+
+<span class="pl-c">// Get all elements indexed by their key in one object</span>
+db.painter.getAllKeyElements();</pre></div>
 
 <h2>
-<a name="example-of-a-configuration-object" class="anchor" href="#example-of-a-configuration-object"><span class="octicon octicon-link"></span></a>Example of a configuration object</h2>
+<a id="example-of-a-configuration-object" class="anchor" href="#example-of-a-configuration-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example of a configuration object</h2>
 
-<div class="highlight highlight-javascript"><pre>
-    <span class="kd">var</span> <span class="nx">logFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">txt</span><span class="p">,</span> <span class="nx">level</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">};</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> <span class="pl-en">logFunc</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">txt</span>, <span class="pl-vpf">level</span>) {
+  <span class="pl-k">if</span> (level <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(txt);
+  }
+};
 
-    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">tags</span><span class="o">:</span>  <span class="p">{},</span>          <span class="c1">// Collection of tags</span>
-      <span class="nx">update</span><span class="o">:</span> <span class="p">{</span>           <span class="c1">// On every insert, remove and update:</span>
-        <span class="nx">indexes</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>   <span class="c1">// updates the indexes, if any  </span>
-        <span class="nx">sort</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>   <span class="c1">// sorts the items of the database </span>
-        <span class="nx">pointer</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>   <span class="c1">// moves the iterator pointer to the last inserted element</span>
-      <span class="p">},</span>
-      <span class="nx">C</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of comparator functions</span>
-      <span class="nx">H</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of hashing functions</span>
-      <span class="nx">I</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of indexing functions</span>
-      <span class="nx">V</span><span class="o">:</span>  <span class="p">{},</span>             <span class="c1">// Collection of view functions</span>
-      <span class="nx">log</span><span class="o">:</span> <span class="nx">logFunc</span><span class="p">,</span>       <span class="c1">// Default stdout</span>
-      <span class="nx">logCtx</span><span class="o">:</span> <span class="nx">logCtx</span>      <span class="c1">// The context of execution for the log function</span>
-      <span class="nx">nddb_pointer</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>    <span class="c1">// Set the pointer to element of index 4</span>
-      <span class="nx">globalCompare</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o1</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// comparing code</span>
-      <span class="p">},</span>
-      <span class="nx">filters</span><span class="o">:</span> <span class="p">{</span>          <span class="c1">// Extends NDDB with new operators for select queries</span>
-        <span class="s1">'%'</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">comparator</span><span class="p">){</span>
-              <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">((</span><span class="nx">elem</span><span class="p">[</span><span class="nx">d</span><span class="p">]</span> <span class="o">%</span> <span class="nx">value</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="k">return</span> <span class="nx">elem</span><span class="p">;</span>
-                <span class="p">}</span>
-              <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="nx">share</span><span class="o">:</span> <span class="p">{</span>           <span class="c1">// Contains objects that are copied by reference to</span>
-                         <span class="c1">// in every new instance of NDDB.</span>
-        <span class="nx">sharedObj</span><span class="o">:</span> <span class="nx">sharedObj</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
+<span class="pl-s">var</span> options <span class="pl-k">=</span> {
+  tags<span class="pl-k">:</span>  {},          <span class="pl-c">// Collection of tags</span>
+  update<span class="pl-k">:</span> {           <span class="pl-c">// On every insert, remove and update:</span>
+    indexes<span class="pl-k">:</span>  <span class="pl-c1">true</span>,   <span class="pl-c">// Updates the indexes, if any</span>
+    sort<span class="pl-k">:</span>     <span class="pl-c1">true</span>,   <span class="pl-c">// Sorts the items of the database</span>
+    pointer<span class="pl-k">:</span>  <span class="pl-c1">true</span>,   <span class="pl-c">// Moves the iterator to the last inserted element</span>
+  },
+  C<span class="pl-k">:</span>  {},             <span class="pl-c">// Collection of comparator functions</span>
+  H<span class="pl-k">:</span>  {},             <span class="pl-c">// Collection of hashing functions</span>
+  I<span class="pl-k">:</span>  {},             <span class="pl-c">// Collection of indexing functions</span>
+  V<span class="pl-k">:</span>  {},             <span class="pl-c">// Collection of view functions</span>
+  log<span class="pl-k">:</span> logFunc,       <span class="pl-c">// Default stdout</span>
+  logCtx<span class="pl-k">:</span> logCtx      <span class="pl-c">// The context of execution for the log function</span>
+  nddb_pointer<span class="pl-k">:</span> <span class="pl-c1">4</span>,    <span class="pl-c">// Set the pointer to element of index 4</span>
+  <span class="pl-en">globalCompare</span>: <span class="pl-st">function</span>(<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
+    <span class="pl-c">// comparing code</span>
+  },
+  filters<span class="pl-k">:</span> {          <span class="pl-c">// Extends NDDB with new operators for select queries</span>
+    <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-en">%</span><span class="pl-pds">'</span></span>: <span class="pl-st">function</span>(<span class="pl-vpf">d</span>, <span class="pl-vpf">value</span>, <span class="pl-vpf">comparator</span>){
+          <span class="pl-k">return</span> <span class="pl-st">function</span>(<span class="pl-vpf">elem</span>) {
+            <span class="pl-k">if</span> ((elem[d] <span class="pl-k">%</span> value) <span class="pl-k">===</span> <span class="pl-c1">0</span>) {
+              <span class="pl-k">return</span> elem;
+            }
+          }
+  },
+  share<span class="pl-k">:</span> {           <span class="pl-c">// Contains objects that are copied by reference to</span>
+                     <span class="pl-c">// in every new instance of NDDB.</span>
+    sharedObj<span class="pl-k">:</span> sharedObj
+  }
+}
 
-    <span class="kd">var</span> <span class="nx">nddb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NDDB</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+<span class="pl-s">var</span> nddb <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>(options);
 
-    <span class="c1">// or</span>
+<span class="pl-c">// or</span>
 
-    <span class="nx">nddb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NDDB</span><span class="p">();</span>
-    <span class="nx">nddb</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
-</pre></div>
+nddb <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();
+nddb.init(options);</pre></div>
 
 <h2>
-<a name="save-and-load-from-file-or-to-localstorage" class="anchor" href="#save-and-load-from-file-or-to-localstorage"><span class="octicon octicon-link"></span></a>Save and load from file or to localStorage</h2>
+<a id="save-and-load-from-file-or-to-localstorage" class="anchor" href="#save-and-load-from-file-or-to-localstorage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save and load from file or to localStorage</h2>
 
-<p>In the node.js environment, it is possible to save the state of the database to a file and load it afterwards.</p>
+<p>In the node.js environment, it is possible to save the state of the
+database to a file and load it afterwards.</p>
 
-<div class="highlight highlight-javascript"><pre>
-   <span class="c1">// database exists and items inserted </span>
-   <span class="nx">db</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="s1">'./db.out'</span><span class="p">);</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// Database exists and items inserted.</span>
+db.save(<span class="pl-s1"><span class="pl-pds">'</span>./db.out<span class="pl-pds">'</span></span>);
 
-   <span class="kd">var</span> <span class="nx">db2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NDDB</span><span class="p">();</span>
-   <span class="nx">db2</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">'./db.out'</span><span class="p">);</span>
-</pre></div>
+<span class="pl-s">var</span> db2 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();
+db2.<span class="pl-s3">load</span>(<span class="pl-s1"><span class="pl-pds">'</span>./db.out<span class="pl-pds">'</span></span>);</pre></div>
 
-<p>The above command are valid also in the browser environment if <a href="https://github.com/shakty/shelf.js">Shelf.js</a> is loaded. A string id instead of the path to a file must be given instead.</p>
+<p>The above command are valid also in the browser environment if
+<a href="https://github.com/shakty/shelf.js">Shelf.js</a> is loaded. A string id
+instead of the path to a file must be given instead.</p>
 
 <h2>
-<a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h2>
+<a id="test" class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h2>
 
-<p>NDDB relies on <a href="http://visionmedia.github.com/mocha/">mocha</a> and <a href="http://github.com/visionmedia/should.js">should.js</a> for testing.</p>
+<p>NDDB relies on <a href="http://visionmedia.github.com/mocha/">mocha</a> and
+<a href="http://github.com/visionmedia/should.js">should.js</a> for testing.</p>
 
 <pre><code>$ npm install # will load all necessary dependencies
 $ npm test # will run the test suite against nddb.js
 </code></pre>
 
 <h2>
-<a name="build" class="anchor" href="#build"><span class="octicon octicon-link"></span></a>Build</h2>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h2>
 
-<p>Create your customized build of NDDB using the make file in the <code>bin</code> directory</p>
+<p>Create your customized build of NDDB using the make file in the <code>bin</code>
+directory:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">build</span> <span class="c1">// Standard build, </span>
-<span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">build</span> <span class="o">-</span><span class="nx">a</span> <span class="o">-</span><span class="nx">o</span> <span class="nx">nddb</span><span class="o">-</span><span class="nx">full</span> <span class="c1">// Full build</span>
-</pre></div>
+<p>In order to run in the browser NDDB needs to have
+<a href="http://github.com/nodeGame/JSUS">JSUS</a> loaded. You can include it
+separately, or create a new build that includes it already. See the
+build help for options.</p>
 
-<h3>
-<a name="help" class="anchor" href="#help"><span class="octicon octicon-link"></span></a>Help</h3>
+<div class="highlight highlight-javascript"><pre>node make.nddb.js build <span class="pl-c">// Standard build,</span>
+node make.nddb.js build <span class="pl-k">-</span>a <span class="pl-k">-</span>o nddb<span class="pl-k">-</span>full <span class="pl-c">// Full build</span></pre></div>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span><span class="nx">help</span>
-</pre></div>
-
-<h2>
-<a name="api-documentation" class="anchor" href="#api-documentation"><span class="octicon octicon-link"></span></a>API Documentation</h2>
-
-<p>Create html API documentation using the make file in the bin directory  </p>
-
-<div class="highlight highlight-javascript"><pre><span class="nx">node</span> <span class="nx">make</span><span class="p">.</span><span class="nx">nddb</span><span class="p">.</span><span class="nx">js</span> <span class="nx">doc</span>
-</pre></div>
-
-<h2>
-<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>ChangeLog</h2>
+<p>The build file file will be created inside the <code>build/</code> directory.</p>
 
 <h3>
-<a name="095" class="anchor" href="#095"><span class="octicon octicon-link"></span></a>0.9.5</h3>
+<a id="help" class="anchor" href="#help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Help</h3>
 
-<ul>
-<li>Operators -&gt; Filters. <code>#addFilter()</code> can add a new filter.</li>
-<li>
-<code>LIKE</code>, and <code>iLIKE</code> filters added.</li>
-<li>The symbol <code>*</code> can be used to select on any property of the object.</li>
-<li>
-<code>#select()</code> accepts an array containing the name of the properties that will be used for the selection.</li>
-<li>
-<code>#shuffle()</code> by default returns a new object, and does not alter the order of the elements in the database. A parameter can control it.</li>
-<li>More efficient updating of elements in the index</li>
-<li>Options <code>log</code> and <code>logCtx</code> are not cloned, by copied by reference. This avoid trying copying potential cyclical structures.</li>
-</ul><h3>
-<a name="092" class="anchor" href="#092"><span class="octicon octicon-link"></span></a>0.9.2</h3>
+<div class="highlight highlight-javascript"><pre>node make.nddb.js <span class="pl-k">--</span>help</pre></div>
 
-<ul>
-<li>
-<code>#remove()</code> -&gt; <code>#removeAllEntries()</code>
-</li>
-<li>
-<code>#NDDBIndex.pop() -&gt; #NDDBIndex.remove()</code> pop is deprecated now</li>
-</ul><h3>
-<a name="091" class="anchor" href="#091"><span class="octicon octicon-link"></span></a>0.9.1</h3>
+<h2>
+<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
 
-<ul>
-<li>On request, views, and hashes are now hybrid. They are NDDB object, but they tries to load all current settings, avoiding to creating infinite loops</li>
-<li>
-<code>#cloneSettings()</code> accepts a leaveOut parameter</li>
-<li>Empty hash objects are created by the constructor, if an hash function is specified</li>
-</ul><h3>
-<a name="090" class="anchor" href="#090"><span class="octicon octicon-link"></span></a>0.9.0</h3>
+<p>Create html API documentation using the make file in the bin directory:</p>
 
-<ul>
-<li>Fixed bug with views and hashs created within constructor of inheriting class</li>
-<li>
-<code>#hash()</code> and <code>#view()</code> always creates objects of type NDDB (previously using the constructor of the inheriting class, if any)</li>
-<li>Fixed bug in loading from browser storage</li>
-<li>Better error messages</li>
-<li>Code for Node.js and browser clearly separated</li>
-<li>NDDB methods throw errors instead of returning false if input parameters are
-incorrect</li>
-</ul><h3>
-<a name="0810" class="anchor" href="#0810"><span class="octicon octicon-link"></span></a>0.8.10</h3>
+<div class="highlight highlight-javascript"><pre>node make.nddb.js doc</pre></div>
 
-<ul>
-<li>Support for shared objects across all breeded instances of NDDB</li>
-<li>NDDB.log -&gt; this.log</li>
-<li>
-<code>#initLog()</code> to execute the log function in the proper context</li>
-<li>Fixed indexes and views not appearing on empty DBs</li>
-</ul><h3>
-<a name="086" class="anchor" href="#086"><span class="octicon octicon-link"></span></a>0.8.6</h3>
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
-<ul>
-<li>Support for property names containing dots</li>
-</ul><h3>
-<a name="085" class="anchor" href="#085"><span class="octicon octicon-link"></span></a>0.8.5</h3>
+<p>Copyright (C) 2014 Stefano Balietti</p>
 
-<ul>
-<li>
-<code>#loadCSV</code>: load the content of a csv file into the database</li>
-<li>Minor fixes</li>
-</ul><h3>
-<a name="084" class="anchor" href="#084"><span class="octicon octicon-link"></span></a>0.8.4</h3>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
 
-<ul>
-<li>NDDBIndexes: <code>#getAllKeys()</code> and <code>#getAllKeyElements</code>
-</li>
-<li>Integration with updated version of Shelf.js</li>
-<li>Minor fixes</li>
-</ul><h3>
-<a name="080" class="anchor" href="#080"><span class="octicon octicon-link"></span></a>0.8.0</h3>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
 
-<ul>
-<li>New faster and more powerful indexing engine</li>
-<li>Indexes are now objects with own methods: <code>#get()</code>, <code>#update()</code>, <code>#pop()</code>, <code>#size()</code>
-</li>
-<li>Support for multiple <em>views</em> on the database</li>
-<li>
-<code>#comparator()</code> becomes <code>#getComparator()</code>, and <code>#compare()</code> becomes <code>#comparator()</code>
-</li>
-<li>Deprecated <code>c</code>,<code>h</code>,<code>i</code>; use human readable <code>comparator</code>, <code>hash</code>, <code>index</code> from now on!</li>
-<li>
-<code>#current()</code> replaces the old <code>#get()</code>
-</li>
-<li>
-<code>#get()</code> always returns the element at the specified ordinal position in the database</li>
-<li>Callback functions of hash and index functions must always be specified</li>
-<li>Hash functions creates NDDB instances of constructor</li>
-</ul><h3>
-<a name="072" class="anchor" href="#072"><span class="octicon octicon-link"></span></a>0.7.2</h3>
-
-<ul>
-<li>
-<code>#selexec()</code> shorthand  for <code>select().execute()</code>
-</li>
-<li>Fixed bug on emit('update')</li>
-<li>
-<code>#tag()</code> returns the tagged element</li>
-<li>
-<code>#clear()</code> removes all volatile data, not just the entries in the database</li>
-<li>Minor doc improvements</li>
-</ul><h3>
-<a name="070" class="anchor" href="#070"><span class="octicon octicon-link"></span></a>0.7.0</h3>
-
-<ul>
-<li>More efficient selector engine. </li>
-<li>Select queries can be chained with and, and or methods</li>
-<li>Select queries are executed with an execute method</li>
-<li>Objects are not maskeraded at insertation (no hidden .nddbid property injected)</li>
-<li>Remove method does not remove the elements in parent database</li>
-<li>Constructor changed, no parent parameter</li>
-</ul><h3>
-<a name="060" class="anchor" href="#060"><span class="octicon octicon-link"></span></a>0.6.0</h3>
-
-<ul>
-<li>fetch accepts no arguments</li>
-<li>fetchValues returns an object containing all the values in the grouped by property</li>
-<li>fetchSubObj</li>
-<li>fetchArray and fetchKeyArray operate only on the first level, and objects in properties are not further flattened</li>
-<li>fetchArray, fetchKeyArray, and fetchValues accept either a string or an array of strings as key-selector parameter</li>
-</ul><h3>
-<a name="058" class="anchor" href="#058"><span class="octicon octicon-link"></span></a>0.5.8</h3>
-
-<ul>
-<li>Serialization of functions, null and undefined values</li>
-<li>Removed eval from select queries</li>
-<li>Travis-ci continous integration</li>
-<li>Minor bug fixing</li>
-</ul><h3>
-<a name="050" class="anchor" href="#050"><span class="octicon octicon-link"></span></a>0.5.0</h3>
-
-<ul>
-<li>Support for events: 'remove', 'insert'</li>
-<li>NDDB.index(): provides fast access to objects</li>
-<li>NDDB.tag(): accepts also objects</li>
-</ul><h3>
-<a name="040" class="anchor" href="#040"><span class="octicon octicon-link"></span></a>0.4.0</h3>
-
-<ul>
-<li>IE compatibility</li>
-<li>Bug fixing</li>
-</ul><h3>
-<a name="036" class="anchor" href="#036"><span class="octicon octicon-link"></span></a>0.3.6</h3>
-
-<ul>
-<li>Bug fixing</li>
-<li>NDDB.save beautifies the output by default</li>
-<li>Post install scripts build the libraries</li>
-</ul><h3>
-<a name="030" class="anchor" href="#030"><span class="octicon octicon-link"></span></a>0.3.0</h3>
-
-<ul>
-<li>NDDB.skim() and NDDB.keep()</li>
-<li>Full test coverage</li>
-<li>Make file in bin directory</li>
-<li>Custom builds</li>
-<li>Bug fixing</li>
-</ul><h3>
-<a name="025" class="anchor" href="#025"><span class="octicon octicon-link"></span></a>0.2.5</h3>
-
-<ul>
-<li>NDDB.distinct() + test</li>
-<li>Support for cyclic objects when saving the database to file</li>
-<li>NDDB.stddev()</li>
-<li>Bug fixing</li>
-<li>More tests</li>
-</ul><h3>
-<a name="02" class="anchor" href="#02"><span class="octicon octicon-link"></span></a>0.2</h3>
-
-<ul>
-<li>Introduced indexing. Indexes are created with NDDB.h() or the alias NDDB.hash()</li>
-<li>NDDB.set() was already deprecated and it has been removed. NDDB.c() or the alias NDDB.compare() should be used instead.</li>
-<li>NDDB.init() can sets the configuration of the database</li>
-</ul><h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
-
-<p>Copyright (C) 2012 Stefano Balietti</p>
-
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/nodeGame/NDDB/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/nodeGame/NDDB/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/nodeGame/NDDB"></a> is maintained by <a href="https://github.com/nodeGame">nodeGame</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
     </div>
-
-            <script type="text/javascript">
+    <footer>
+      <p>Project maintained by <a href="https://github.com/nodeGame">nodeGame</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

@@ -1,33 +1,25 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Nddb by nodeGame</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Nddb</h1>
-        <p>Javascript lightweight N-dimensional database</p>
-        <p class="view"><a href="https://github.com/nodeGame/NDDB">View the Project on GitHub <small>nodeGame/NDDB</small></a></p>
-        <ul>
-          <li><a href="https://github.com/nodeGame/NDDB/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/nodeGame/NDDB/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/nodeGame/NDDB">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
+    <section class="page-header">
+      <h1 class="project-name">Nddb</h1>
+      <h2 class="project-tagline">Javascript lightweight N-dimensional database</h2>
+      <a href="https://github.com/nodeGame/NDDB" class="btn">View on GitHub</a>
+      <a href="https://github.com/nodeGame/NDDB/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/nodeGame/NDDB/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
 <a id="nddb" class="anchor" href="#nddb" aria-hidden="true"><span class="octicon octicon-link"></span></a>NDDB</h1>
 
 <p><a href="https://travis-ci.org/nodeGame/NDDB"><img src="https://travis-ci.org/nodeGame/NDDB.png?branch=master" alt="Build Status"></a></p>
@@ -75,7 +67,7 @@ file system and browser localStorage, and much more.</p>
 </li>
 <li>Event listener / emitter: <code>on</code>, <code>off</code>, <code>emit</code>
 </li>
-<li>Saving and Loading: <code>save</code>, <code>load</code>, <code>loadCSV</code>
+<li>Saving and Loading: <code>save</code>, <code>saveSync</code>, <code>load</code>, <code>loadSync</code>
 </li>
 </ul>
 
@@ -87,52 +79,52 @@ file system and browser localStorage, and much more.</p>
 
 <p>Load the library in Node.js:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> NDDB <span class="pl-k">=</span> <span class="pl-s3">require</span>(<span class="pl-s1"><span class="pl-pds">'</span>NDDB<span class="pl-pds">'</span></span>).NDDB;</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-c1">NDDB</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>NDDB<span class="pl-pds">'</span></span>).NDDB;</pre></div>
 
 <p>or in the browser add a script tag in the page:</p>
 
-<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- Must load a version of NDDB that includes JSUS (see 'build/' dir) --&gt;</span>
-&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/path/to/nddb.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!-- Must load a version of NDDB that includes JSUS (see 'build/' dir) --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/nddb.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <p>Create an instance of NDDB:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();</pre></div>
 
 <p>Insert an item into the database:</p>
 
-<div class="highlight highlight-javascript"><pre>db.insert({
-    painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Picasso<span class="pl-pds">"</span></span>,
-    title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Les Demoiselles d'Avignon<span class="pl-pds">"</span></span>,
+<div class="highlight highlight-source-js"><pre>db.insert({
+    painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Picasso<span class="pl-pds">"</span></span>,
+    title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Les Demoiselles d'Avignon<span class="pl-pds">"</span></span>,
     year<span class="pl-k">:</span> <span class="pl-c1">1907</span>
 });</pre></div>
 
 <p>Import a collection of items:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> items <span class="pl-k">=</span> [
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> items <span class="pl-k">=</span> [
     {
-        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
-        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Portrait of Paul Eluard<span class="pl-pds">"</span></span>,
+        painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Portrait of Paul Eluard<span class="pl-pds">"</span></span>,
         year<span class="pl-k">:</span> <span class="pl-c1">1929</span>,
         portrait<span class="pl-k">:</span> <span class="pl-c1">true</span>
     },
     {
-        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
-        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Barcelonese Mannequin<span class="pl-pds">"</span></span>,
+        painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Dali<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Barcelonese Mannequin<span class="pl-pds">"</span></span>,
         year<span class="pl-k">:</span> <span class="pl-c1">1927</span>
     },
     {
-        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
-        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Water Lilies<span class="pl-pds">"</span></span>,
+        painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Water Lilies<span class="pl-pds">"</span></span>,
         year<span class="pl-k">:</span> <span class="pl-c1">1906</span>
     },
     {
-        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
-        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Wheatstacks (End of Summer)<span class="pl-pds">"</span></span>,
+        painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Monet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Wheatstacks (End of Summer)<span class="pl-pds">"</span></span>,
         year<span class="pl-k">:</span> <span class="pl-c1">1891</span>
     },
     {
-        painter<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Manet<span class="pl-pds">"</span></span>,
-        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Olympia<span class="pl-pds">"</span></span>,
+        painter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Manet<span class="pl-pds">"</span></span>,
+        title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Olympia<span class="pl-pds">"</span></span>,
         year<span class="pl-k">:</span> <span class="pl-c1">1863</span>
     }
 ];
@@ -141,14 +133,14 @@ db.importDB(items);</pre></div>
 
 <p>Retrieve the database size:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> db_size <span class="pl-k">=</span> db.<span class="pl-sc">size</span>(); <span class="pl-c">// 6</span></pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> db_size <span class="pl-k">=</span> db.<span class="pl-c1">size</span>(); <span class="pl-c">// 6</span></pre></div>
 
 <h3>
 <a id="select-items" class="anchor" href="#select-items" aria-hidden="true"><span class="octicon octicon-link"></span></a>Select Items</h3>
 
 <p>Select statements must begin with <code>select</code>, and can be concatened by
 any number of subsequent <code>and</code> and <code>or</code> statements. The comparison in
-select statements is performed using three input parameters: </p>
+select statements is performed using three input parameters:</p>
 
 <ul>
 <li>'property'</li>
@@ -160,7 +152,7 @@ select statements is performed using three input parameters: </p>
 
 <ul>
 <li>
-<code>=</code>, <code>==</code>, <code>!=</code>, `<code>&gt;</code>, &gt;=<code>,</code>&lt;<code>,</code>&lt;=`,</li>
+<code>=</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>, &gt;=<code>,</code>&lt;<code>,</code>&lt;=`,</li>
 </ul>
 
 <p>or advanced comparison operators:</p>
@@ -193,36 +185,36 @@ separating them with <code>.</code>.</p>
 
 <p>Select all paintings from Dali:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>); <span class="pl-c">// 2 items</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>); <span class="pl-c">// 2 items</span></pre></div>
 
 <p>Case sensitive <code>LIKE</code> operator:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>LIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>M_net<span class="pl-pds">'</span></span>); <span class="pl-c">// 3 items</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>LIKE<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>M_net<span class="pl-pds">'</span></span>); <span class="pl-c">// 3 items</span></pre></div>
 
 <p>Select on multiple properties (<code>*</code>) with case insensitive <code>LIKE</code>:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>*<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>); <span class="pl-c">// All items</span>
-db.<span class="pl-s3">select</span>([<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>], <span class="pl-s1"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>) <span class="pl-c">// 5 items</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>*<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>); <span class="pl-c">// All items</span>
+db.<span class="pl-c1">select</span>([<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>], <span class="pl-s"><span class="pl-pds">'</span>iLIKE<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>%e%<span class="pl-pds">'</span></span>) <span class="pl-c">// 5 items</span></pre></div>
 
 <p>Select all portraits:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>); <span class="pl-c">// 1 item</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>portrait<span class="pl-pds">'</span></span>); <span class="pl-c">// 1 item</span></pre></div>
 
 <p>Fetch all paintings from Dali that are before 1928:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>)
-  .and(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&lt;<span class="pl-pds">'</span></span>, <span class="pl-c1">1928</span>);
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>=<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Dali<span class="pl-pds">'</span></span>)
+  .and(<span class="pl-s"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&lt;<span class="pl-pds">'</span></span>, <span class="pl-c1">1928</span>);
   .fetch(); <span class="pl-c">// 1 item</span></pre></div>
 
 <p>Fetch all paintings of the beginning of XX's century:</p>
 
-<div class="highlight highlight-javascript"><pre>    db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
+<div class="highlight highlight-source-js"><pre>    db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
       .fetch(); <span class="pl-c">// 2 items</span></pre></div>
 
 <p>Fetch separately all the painters and all the dates of the paintings:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
-  .fetchValues([<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>]);
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>year<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&gt;&lt;<span class="pl-pds">'</span></span>, [<span class="pl-c1">1900</span>, <span class="pl-c1">1910</span>])
+  .fetchValues([<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>]);
 
 <span class="pl-c">// { painter: [ 'Jesus', 'Dali', 'Dali', 'Monet', 'Monet', 'Manet' ],</span>
 <span class="pl-c">//   year: [ 0, 1929, 1927, 1906, 1891, 1863 ] }</span></pre></div>
@@ -232,7 +224,7 @@ db.<span class="pl-s3">select</span>([<span class="pl-s1"><span class="pl-pds">'
 
 <p>Define a global comparator function that sorts all the entries chronologically:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s3">db</span>.<span class="pl-en">globalCompator</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">db</span>.<span class="pl-en">globalCompator</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">o1</span>, <span class="pl-smi">o2</span>) {
     <span class="pl-k">if</span> (o1.year <span class="pl-k">&lt;</span> o2.year) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
     <span class="pl-k">if</span> (o1.year <span class="pl-k">&lt;</span> o2.year) <span class="pl-k">return</span> <span class="pl-c1">2</span>;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
@@ -240,23 +232,23 @@ db.<span class="pl-s3">select</span>([<span class="pl-s1"><span class="pl-pds">'
 
 <p>Sort all the items (global comparator function is automatically used):</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">sort</span>(); <span class="pl-c">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">sort</span>(); <span class="pl-c">// Order: Manet, Monet, Monet, Picasso, Dali, Dali</span></pre></div>
 
 <p>Reverse the order of the items:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">reverse</span>(); <span class="pl-c">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">reverse</span>(); <span class="pl-c">// Order: Dali, Dali, Picasso, Monet, Monet, Manet</span></pre></div>
 
 <p>Define a custom comparator function for the name of the painter, which
 gives highest priorities to the canvases of Picasso;</p>
 
-<div class="highlight highlight-javascript"><pre>db.compare(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
-    <span class="pl-k">if</span> (o1.painter <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-k">-</span><span class="pl-c1">1</span>;
-    <span class="pl-k">if</span> (o2.painter <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+<div class="highlight highlight-source-js"><pre>db.compare(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">o1</span>, <span class="pl-smi">o2</span>) {
+    <span class="pl-k">if</span> (o1.painter <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-k">-</span><span class="pl-c1">1</span>;
+    <span class="pl-k">if</span> (o2.painter <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>Picasso<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
 }</pre></div>
 
 <p>Sort all the paintings by painter</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-s3">sort</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>); <span class="pl-c">// Picasso is always listed first</span></pre></div>
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">sort</span>(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>); <span class="pl-c">// Picasso is always listed first</span></pre></div>
 
 <h3>
 <a id="views" class="anchor" href="#views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views</h3>
@@ -264,38 +256,38 @@ gives highest priorities to the canvases of Picasso;</p>
 <p>Splits the database in sub-database, each containing semantically
 consistent set of entries:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-c">// Let us add some cars to our previous database of paintings.</span>
-<span class="pl-s">var</span> not_art_items <span class="pl-k">=</span> [
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Let us add some cars to our previous database of paintings.</span>
+<span class="pl-k">var</span> not_art_items <span class="pl-k">=</span> [
     {
-      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Ferrari<span class="pl-pds">"</span></span>,
-      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>F10<span class="pl-pds">"</span></span>,
+      car<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Ferrari<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>F10<span class="pl-pds">"</span></span>,
       speed<span class="pl-k">:</span> <span class="pl-c1">350</span>,
     },
     {
-      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Fiat<span class="pl-pds">"</span></span>,
-      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>500<span class="pl-pds">"</span></span>,
+      car<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Fiat<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>500<span class="pl-pds">"</span></span>,
       speed<span class="pl-k">:</span> <span class="pl-c1">100</span>,
     },
     {
-      car<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>BMW<span class="pl-pds">"</span></span>,
-      model<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Z4<span class="pl-pds">"</span></span>,
+      car<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>BMW<span class="pl-pds">"</span></span>,
+      model<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Z4<span class="pl-pds">"</span></span>,
       speed<span class="pl-k">:</span> <span class="pl-c1">250</span>,
     },
 ];
 
-db.view(<span class="pl-s1"><span class="pl-pds">'</span>art<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+db.view(<span class="pl-s"><span class="pl-pds">'</span>art<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">o</span>) {
   <span class="pl-k">return</span> o.painter;
 });
 
-db.view(<span class="pl-s1"><span class="pl-pds">'</span>cars<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+db.view(<span class="pl-s"><span class="pl-pds">'</span>cars<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">o</span>) {
   <span class="pl-k">return</span> o.car;
 });
 
 db.rebuildIndexes();
 
-db.<span class="pl-sc">size</span>();          <span class="pl-c">// 9</span>
-db.art.<span class="pl-sc">size</span>();      <span class="pl-c">// NDDB with 6 art entries</span>
-db.cars.<span class="pl-sc">size</span>();     <span class="pl-c">// NDDB with 3 car entries</span></pre></div>
+db.<span class="pl-c1">size</span>();          <span class="pl-c">// 9</span>
+db.art.<span class="pl-c1">size</span>();      <span class="pl-c">// NDDB with 6 art entries</span>
+db.cars.<span class="pl-c1">size</span>();     <span class="pl-c">// NDDB with 3 car entries</span></pre></div>
 
 <h3>
 <a id="hashing" class="anchor" href="#hashing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hashing</h3>
@@ -303,14 +295,14 @@ db.cars.<span class="pl-sc">size</span>();     <span class="pl-c">// NDDB with 3
 <p>Define a custom hash function that creates a new view on each of the
 painters in the database:</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-sc">hash</span>(<span class="pl-s1"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">hash</span>(<span class="pl-s"><span class="pl-pds">'</span>painter<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">o</span>) {
     <span class="pl-k">if</span> (<span class="pl-k">!</span>o) <span class="pl-k">return</span> <span class="pl-c1">undefined</span>;
     <span class="pl-k">return</span> o.painter;
 });
 
 db.rebuildIndexes();
 
-db.<span class="pl-sc">size</span>();          <span class="pl-c">// 6, unchanged;</span>
+db.<span class="pl-c1">size</span>();          <span class="pl-c">// 6, unchanged;</span>
 db.painter.Picasso; <span class="pl-c">// NDDB with 1 element in db</span>
 db.painter.Monet    <span class="pl-c">// NDDB with 2 elements in db</span>
 db.painter.Manet    <span class="pl-c">// NDDB with 1 elements in db</span>
@@ -322,11 +314,11 @@ db.painter.Dali     <span class="pl-c">// NDDB with 2 elements in db</span></pre
 <p>Listen to the <code>insert</code> event and modify the inserted items by adding
 an external index to them:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> id <span class="pl-k">=</span> <span class="pl-c1">0</span>;
-<span class="pl-st">function</span> <span class="pl-en">getMyId</span>(){ <span class="pl-k">return</span> id<span class="pl-k">++</span>; };
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> id <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+<span class="pl-k">function</span> <span class="pl-en">getMyId</span>(){ <span class="pl-k">return</span> id<span class="pl-k">++</span>; };
 
-db.on(<span class="pl-s1"><span class="pl-pds">'</span>insert<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
-    o.painter.<span class="pl-sc">id</span> <span class="pl-k">=</span> getMyId();
+db.on(<span class="pl-s"><span class="pl-pds">'</span>insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">o</span>) {
+    o.painter.<span class="pl-c1">id</span> <span class="pl-k">=</span> getMyId();
 });</pre></div>
 
 <h3>
@@ -335,23 +327,23 @@ db.on(<span class="pl-s1"><span class="pl-pds">'</span>insert<span class="pl-pds
 <p>Define a custom indexing function that gives fast, direct access to
 the items of the database;</p>
 
-<div class="highlight highlight-javascript"><pre>db.<span class="pl-sc">index</span>(<span class="pl-s1"><span class="pl-pds">'</span>pid<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">o</span>) {
-    <span class="pl-k">return</span> o.<span class="pl-sc">id</span>;
+<div class="highlight highlight-source-js"><pre>db.<span class="pl-c1">index</span>(<span class="pl-s"><span class="pl-pds">'</span>pid<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">o</span>) {
+    <span class="pl-k">return</span> o.<span class="pl-c1">id</span>;
 });
 
 db.rebuildIndexes();
 
-db.pid.get(<span class="pl-c1">0</span>).<span class="pl-sc">name</span>; <span class="pl-c">// Picasso</span>
+db.pid.get(<span class="pl-c1">0</span>).<span class="pl-c1">name</span>; <span class="pl-c">// Picasso</span>
 
 db.pid.update(<span class="pl-c1">0</span>, {
-  comment<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Good job Pablo!<span class="pl-pds">"</span></span>
+  comment<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Good job Pablo!<span class="pl-pds">"</span></span>
 });
 
 <span class="pl-c">// Counts items in selection.</span>
-db.<span class="pl-s3">select</span>(<span class="pl-s1"><span class="pl-pds">'</span>comment<span class="pl-pds">'</span></span>).count(); <span class="pl-c">// 1</span>
+db.<span class="pl-c1">select</span>(<span class="pl-s"><span class="pl-pds">'</span>comment<span class="pl-pds">'</span></span>).count(); <span class="pl-c">// 1</span>
 
-<span class="pl-s">var</span> picasso <span class="pl-k">=</span> db.pid.<span class="pl-s3">remove</span>(<span class="pl-c1">0</span>);
-db.<span class="pl-sc">size</span>(); <span class="pl-c">// (0)</span>
+<span class="pl-k">var</span> picasso <span class="pl-k">=</span> db.pid.remove(<span class="pl-c1">0</span>);
+db.<span class="pl-c1">size</span>(); <span class="pl-c">// (0)</span>
 
 <span class="pl-c">// Get all available keys in the index</span>
 db.painter.getAllKeys(); <span class="pl-c">// ['0','1', ... ]</span>
@@ -362,13 +354,13 @@ db.painter.getAllKeyElements();</pre></div>
 <h2>
 <a id="example-of-a-configuration-object" class="anchor" href="#example-of-a-configuration-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example of a configuration object</h2>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> <span class="pl-en">logFunc</span> <span class="pl-k">=</span> <span class="pl-st">function</span>(<span class="pl-vpf">txt</span>, <span class="pl-vpf">level</span>) {
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-en">logFunc</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">txt</span>, <span class="pl-smi">level</span>) {
   <span class="pl-k">if</span> (level <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {
-    <span class="pl-en">console</span><span class="pl-s3">.log</span>(txt);
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(txt);
   }
 };
 
-<span class="pl-s">var</span> options <span class="pl-k">=</span> {
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
   tags<span class="pl-k">:</span>  {},          <span class="pl-c">// Collection of tags</span>
   update<span class="pl-k">:</span> {           <span class="pl-c">// On every insert, remove and update:</span>
     indexes<span class="pl-k">:</span>  <span class="pl-c1">true</span>,   <span class="pl-c">// Updates the indexes, if any</span>
@@ -382,12 +374,12 @@ db.painter.getAllKeyElements();</pre></div>
   log<span class="pl-k">:</span> logFunc,       <span class="pl-c">// Default stdout</span>
   logCtx<span class="pl-k">:</span> logCtx      <span class="pl-c">// The context of execution for the log function</span>
   nddb_pointer<span class="pl-k">:</span> <span class="pl-c1">4</span>,    <span class="pl-c">// Set the pointer to element of index 4</span>
-  <span class="pl-en">globalCompare</span>: <span class="pl-st">function</span>(<span class="pl-vpf">o1</span>, <span class="pl-vpf">o2</span>) {
+  <span class="pl-en">globalCompare</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">o1</span>, <span class="pl-smi">o2</span>) {
     <span class="pl-c">// comparing code</span>
   },
   filters<span class="pl-k">:</span> {          <span class="pl-c">// Extends NDDB with new operators for select queries</span>
-    <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-en">%</span><span class="pl-pds">'</span></span>: <span class="pl-st">function</span>(<span class="pl-vpf">d</span>, <span class="pl-vpf">value</span>, <span class="pl-vpf">comparator</span>){
-          <span class="pl-k">return</span> <span class="pl-st">function</span>(<span class="pl-vpf">elem</span>) {
+    <span class="pl-s"><span class="pl-pds">'</span><span class="pl-en">%</span><span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">d</span>, <span class="pl-smi">value</span>, <span class="pl-smi">comparator</span>){
+          <span class="pl-k">return</span> <span class="pl-k">function</span>(<span class="pl-smi">elem</span>) {
             <span class="pl-k">if</span> ((elem[d] <span class="pl-k">%</span> value) <span class="pl-k">===</span> <span class="pl-c1">0</span>) {
               <span class="pl-k">return</span> elem;
             }
@@ -399,7 +391,7 @@ db.painter.getAllKeyElements();</pre></div>
   }
 }
 
-<span class="pl-s">var</span> nddb <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>(options);
+<span class="pl-k">var</span> nddb <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>(options);
 
 <span class="pl-c">// or</span>
 
@@ -407,20 +399,170 @@ nddb <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-e
 nddb.init(options);</pre></div>
 
 <h2>
-<a id="save-and-load-from-file-or-to-localstorage" class="anchor" href="#save-and-load-from-file-or-to-localstorage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save and load from file or to localStorage</h2>
+<a id="saving-and-loading-items" class="anchor" href="#saving-and-loading-items" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving and Loading Items</h2>
 
-<p>In the node.js environment, it is possible to save the state of the
-database to a file and load it afterwards.</p>
+<p>The items in the database can be saved and loaded using the <code>save</code> and
+<code>load</code> methods, and their synchronous implementations <code>saveSync</code> and
+<code>loadSync</code>.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-c">// Database exists and items inserted.</span>
-db.save(<span class="pl-s1"><span class="pl-pds">'</span>./db.out<span class="pl-pds">'</span></span>);
+<h3>
+<a id="saving-and-loading-to-file-system-nodejs-environment" class="anchor" href="#saving-and-loading-to-file-system-nodejs-environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving and loading to file system (node.js environment)</h3>
 
-<span class="pl-s">var</span> db2 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">NDDB</span>();
-db2.<span class="pl-s3">load</span>(<span class="pl-s1"><span class="pl-pds">'</span>./db.out<span class="pl-pds">'</span></span>);</pre></div>
+<p>Two formats are natively supported: <code>.json</code> and <code>.csv</code>, and they are
+detected by the extension of the filename. If a differ extension is
+found, NDDB will fall back to the default format (usually json).</p>
 
-<p>The above command are valid also in the browser environment if
-<a href="https://github.com/shakty/shelf.js">Shelf.js</a> is loaded. A string id
-instead of the path to a file must be given instead.</p>
+<p>It is possible to specify new formats using the <code>addFormat</code> method.</p>
+
+<h4>
+<a id="code-examples" class="anchor" href="#code-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Examples</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Saving items in JSON format.</span>
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db.json<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db into 'db.json'<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Saving items in CSV format.</span>
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db.csv<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db into db.csv'<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Saving items synchronously in CSV format.</span>
+db.saveSync(<span class="pl-s"><span class="pl-pds">'</span>db.csv<span class="pl-pds">'</span></span>);
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db into db.csv'<span class="pl-pds">"</span></span>);
+
+<span class="pl-c">// Saving items in the default format (usually json).</span>
+db.getDefaultFormat(); <span class="pl-c">// json</span>
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db.out<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db into db.out'<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Specifying the default format and saving into CSV.</span>
+db.setDefaultFormat(<span class="pl-s"><span class="pl-pds">'</span>csv<span class="pl-pds">'</span></span>);
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db.out<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db into db.out'<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Transform items before saving them to CSV format.</span>
+<span class="pl-c">// Define adapter function that doubles all numbers in column "A".</span>
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {};
+options.adapter <span class="pl-k">=</span> {
+    <span class="pl-en">A</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">item</span>) { <span class="pl-k">return</span> item.A <span class="pl-k">*</span> <span class="pl-c1">2</span>; }
+};
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db2.csv<span class="pl-pds">'</span></span>, options, <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Saved db as csv into 'db2.csv', where numbers in column 'A'<span class="pl-pds">"</span></span> <span class="pl-k">+</span>
+                <span class="pl-s"><span class="pl-pds">"</span>were doubled<span class="pl-pds">"</span></span>);
+});
+
+
+<span class="pl-c">// Loading items into database.</span>
+db.<span class="pl-c1">load</span>(<span class="pl-s"><span class="pl-pds">'</span>db.csv<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+                  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Loaded csv file into database<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Loading items into database synchronously.</span>
+db.loadSync(<span class="pl-s"><span class="pl-pds">'</span>db.csv<span class="pl-pds">'</span></span>);
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Loaded csv file into database<span class="pl-pds">"</span></span>);
+
+<span class="pl-c">// Loading 'adapted' items into database.</span>
+db.<span class="pl-c1">load</span>(<span class="pl-s"><span class="pl-pds">'</span>db2.csv<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+                   <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Loaded csv file into database<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Transform items before loading them into database.</span>
+<span class="pl-c">// Loading items into database.</span>
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {};
+options.adapter <span class="pl-k">=</span> {
+    <span class="pl-en">A</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">item</span>) { <span class="pl-k">return</span> item.A <span class="pl-k">/</span> <span class="pl-c1">2</span>; }
+};
+
+db.<span class="pl-c1">load</span>(<span class="pl-s"><span class="pl-pds">'</span>db2.csv<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+                   <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Loaded csv file into database<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c">// Specify a new format.</span>
+db.addFormat(<span class="pl-s"><span class="pl-pds">'</span>asd<span class="pl-pds">'</span></span>, {
+   <span class="pl-en">save</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">db</span>, <span class="pl-smi">file</span>, <span class="pl-smi">cb</span>, <span class="pl-smi">options</span>) {
+         <span class="pl-c">// save file asynchronously.</span>
+   },
+   <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">db</span>, <span class="pl-smi">file</span>, <span class="pl-smi">cb</span>, <span class="pl-smi">options</span>) {
+         <span class="pl-c">// load file asynchronously.</span>
+   },
+   <span class="pl-en">saveSync</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">db</span>, <span class="pl-smi">file</span>, <span class="pl-smi">cb</span>, <span class="pl-smi">options</span>) {
+         <span class="pl-c">// save file synchronously.</span>
+   },
+   <span class="pl-en">loadSync</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">db</span>, <span class="pl-smi">file</span>, <span class="pl-smi">cb</span>, <span class="pl-smi">options</span>) {
+         <span class="pl-c">// load file synchronously.</span>
+   }
+});
+
+<span class="pl-c">// Saving in the new format.</span>
+db.save(<span class="pl-s"><span class="pl-pds">'</span>db.asd<span class="pl-pds">'</span></span>);</pre></div>
+
+<h4>
+<a id="list-of-all-available-options" class="anchor" href="#list-of-all-available-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of all available options</h4>
+
+<div class="highlight highlight-source-js"><pre>{
+
+   flags<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>w<span class="pl-pds">'</span></span>,                        <span class="pl-c">// The Node.js flag to write to fs.</span>
+                                      <span class="pl-c">// Default: 'a' (append).</span>
+
+   encoding<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>utf-8<span class="pl-pds">'</span></span>,                 <span class="pl-c">// The encoding of the file.</span>
+
+   mode<span class="pl-k">:</span> <span class="pl-c1">0777</span>,                        <span class="pl-c">// The permission given to the file.</span>
+                                      <span class="pl-c">// Default: 0666</span>
+
+   <span class="pl-c">// Options below are processed when the CSV format is detected.</span>
+
+   headers<span class="pl-k">:</span> <span class="pl-c1">true</span>,                     <span class="pl-c">// if options.headers === true: use</span>
+                                      <span class="pl-c">//   first line of file as headers;</span>
+                                      <span class="pl-c">// if !options.headers: use</span>
+                                      <span class="pl-c">//   ['X1'...'XN'] as headers;</span>
+                                      <span class="pl-c">// if options.headers is an array of</span>
+                                      <span class="pl-c">//   strings use it as headers;</span>
+                                      <span class="pl-c">// if options.headers is an array</span>
+                                      <span class="pl-c">//   containing true/false use entry</span>
+                                      <span class="pl-c">//   from file/'Xi' respectively;</span>
+
+
+   adapter<span class="pl-k">:</span> { <span class="pl-en">A</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">row</span>) {      <span class="pl-c">// An obj containing callbacks for</span>
+                  <span class="pl-k">return</span> row[<span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>]<span class="pl-k">-</span><span class="pl-c1">1</span>;  <span class="pl-c">// each header. The callbacks take</span>
+                 }                    <span class="pl-c">// an object of strings and</span>
+            },                        <span class="pl-c">// return a string. Each entry in</span>
+                                      <span class="pl-c">// the file is the result of</span>
+                                      <span class="pl-c">// applying the callback of its</span>
+                                      <span class="pl-c">// column to its row.</span>
+
+
+   separator<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,                    <span class="pl-c">// The character used as separator</span>
+                                      <span class="pl-c">// between values. Default ','.</span>
+
+   quote<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>"<span class="pl-pds">'</span></span>,                        <span class="pl-c">// The character used as quote.</span>
+                                      <span class="pl-c">// Default: '"'.</span>
+
+   commentchar<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,                   <span class="pl-c">// The character used for comments.</span>
+                                      <span class="pl-c">// Default: ''.</span>
+
+   nestedQuotes<span class="pl-k">:</span> <span class="pl-c1">false</span>,               <span class="pl-c">// TRUE, if nested quotes allowed.</span>
+                                      <span class="pl-c">// Default FALSE.</span>
+
+   escapeCharacter<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\\</span><span class="pl-pds">'</span></span>,             <span class="pl-c">// The char that should be skipped.</span>
+                                      <span class="pl-c">// Default: \.</span>
+}</pre></div>
+
+<h3>
+<a id="saving-and-loading-to-the-local-storage-browser-environment" class="anchor" href="#saving-and-loading-to-the-local-storage-browser-environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving and loading to the local storage (browser environment)</h3>
+
+<p>Items persistance in the browser is available only if NDDB is built
+with the <a href="https://github.com/shakty/shelf.js">Shelf.js</a>
+extension. Alternatively, a custom <code>store</code> function taking as input
+the name of the local database could be defined.</p>
+
+<p>All items will be saved in the JSON format.</p>
+
+<p>Notice that there exist limitations to maximum number of items that
+can be saved, depending on the local storage maximum capacity settings
+of the browser. If the limit is reached an error will be thrown.</p>
 
 <h2>
 <a id="test" class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h2>
@@ -443,7 +585,7 @@ directory:</p>
 separately, or create a new build that includes it already. See the
 build help for options.</p>
 
-<div class="highlight highlight-javascript"><pre>node make.nddb.js build <span class="pl-c">// Standard build,</span>
+<div class="highlight highlight-source-js"><pre>node make.nddb.js build <span class="pl-c">// Standard build,</span>
 node make.nddb.js build <span class="pl-k">-</span>a <span class="pl-k">-</span>o nddb<span class="pl-k">-</span>full <span class="pl-c">// Full build</span></pre></div>
 
 <p>The build file file will be created inside the <code>build/</code> directory.</p>
@@ -451,46 +593,29 @@ node make.nddb.js build <span class="pl-k">-</span>a <span class="pl-k">-</span>
 <h3>
 <a id="help" class="anchor" href="#help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Help</h3>
 
-<div class="highlight highlight-javascript"><pre>node make.nddb.js <span class="pl-k">--</span>help</pre></div>
+<div class="highlight highlight-source-js"><pre>node make.nddb.js <span class="pl-k">--</span>help</pre></div>
 
 <h2>
 <a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
 
 <p>Create html API documentation using the make file in the bin directory:</p>
 
-<div class="highlight highlight-javascript"><pre>node make.nddb.js doc</pre></div>
+<div class="highlight highlight-source-js"><pre>node make.nddb.js doc</pre></div>
 
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p>Copyright (C) 2014 Stefano Balietti</p>
+<p><a href="LICENSE">MIT</a></p>
 
-<p>Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:</p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/nodeGame/NDDB">Nddb</a> is maintained by <a href="https://github.com/nodeGame">nodeGame</a>.</span>
 
-<p>The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.</p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
 
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-      </section>
-    </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/nodeGame">nodeGame</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

@@ -79,15 +79,15 @@ program
         }
         catch(e) {
             console.log('module Docker not found. Cannot build doc. ' +
-                        'Do \'npm install docker\' to fix it.');
+                        'Do \'npm install docker\' to install it.');
             return false;
         }
-        command = dockerDir + 'docker -i ' + rootDir + 
-            ' nddb.js lib/ -s true -o ' + rootDir + 'docs/';
-        
+        command = dockerDir + 'docker -i ' + rootDir +
+            ' nddb.js lib/ -s true -o ' + rootDir + 'docs/ -u';
+
         child = exec(command, function (error, stdout, stderr) {
-            util.print(stdout);
-            util.print(stderr);
+            if (stdout) console.log(stdout);
+            if (stderr) console.log(stderr);
             if (error !== null) {
                 console.log('build error: ' + error);
             }

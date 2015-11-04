@@ -30,7 +30,7 @@ Developer-friendly thanks to an easy api, detailed documentation, and
 - Iterator: `previous`, `next`, `first`, `last`
 - Tagging: `tag`
 - Event listener / emitter: `on`, `off`, `emit`
-- Saving and Loading: `save`, `load`, `loadCSV`
+- Saving and Loading: `save`, `saveSync`, `load`, `loadSync`
 
 The complete NDDB api documentation is available
 [here](http://nodegame.github.com/NDDB/docs/nddb.js.html).
@@ -52,7 +52,7 @@ or in the browser add a script tag in the page:
 
 Create an instance of NDDB:
 
-```javascript   
+```javascript
 var db = new NDDB();
 ```
 
@@ -111,7 +111,7 @@ var db_size = db.size(); // 6
 
 Select statements must begin with `select`, and can be concatened by
 any number of subsequent `and` and `or` statements. The comparison in
-select statements is performed using three input parameters: 
+select statements is performed using three input parameters:
 
   - 'property'
   - 'operator'
@@ -119,7 +119,7 @@ select statements is performed using three input parameters:
 
 Available operators include standard logical operators:
 
-   - `=`, `==`, `!=`, ``>`, >=`, `<`, `<=`,
+   - `=`, `==`, `!=`, `>`, >=`, `<`, `<=`,
 
 or advanced comparison operators:
 
@@ -382,22 +382,174 @@ nddb = new NDDB();
 nddb.init(options);
 ```
 
-## Save and load from file or to localStorage
 
-In the node.js environment, it is possible to save the state of the
-database to a file and load it afterwards.
+## Saving and Loading Items
+
+
+The items in the database can be saved and loaded using the `save` and
+`load` methods, and their synchronous implementations `saveSync` and
+`loadSync`.
+
+### Saving and loading to file system (node.js environment)
+
+Two formats are natively supported: `.json` and `.csv`, and they are
+detected by the extension of the filename. If a differ extension is
+found, NDDB will fall back to the default format (usually json).
+
+It is possible to specify new formats using the `addFormat` method.
+
+#### Code Examples
 
 ```javascript
-// Database exists and items inserted.
-db.save('./db.out');
+// Saving items in JSON format.
+db.save('db.json', function() {
+    console.log("Saved db into 'db.json'");
+});
 
-var db2 = new NDDB();
-db2.load('./db.out');
+// Saving items in CSV format.
+db.save('db.csv', function() {
+    console.log("Saved db into db.csv'");
+});
+
+// Saving items synchronously in CSV format.
+db.saveSync('db.csv');
+console.log("Saved db into db.csv'");
+
+// Saving items in the default format (usually json).
+db.getDefaultFormat(); // json
+db.save('db.out', function() {
+    console.log("Saved db into db.out'");
+});
+
+// Specifying the default format and saving into CSV.
+db.setDefaultFormat('csv');
+db.save('db.out', function() {
+    console.log("Saved db into db.out'");
+});
+
+// Transform items before saving them to CSV format.
+// Define adapter function that doubles all numbers in column "A".
+var options = {};
+options.adapter = {
+    A: function(item) { return item.A * 2; }
+};
+db.save('db2.csv', options, function() {
+    console.log("Saved db as csv into 'db2.csv', where numbers in column 'A'" +
+                "were doubled");
+});
+
+
+// Loading items into database.
+db.load('db.csv', function() {
+                  console.log("Loaded csv file into database");
+});
+
+// Loading items into database synchronously.
+db.loadSync('db.csv');
+console.log("Loaded csv file into database");
+
+// Loading 'adapted' items into database.
+db.load('db2.csv', function() {
+                   console.log("Loaded csv file into database");
+});
+
+// Transform items before loading them into database.
+// Loading items into database.
+var options = {};
+options.adapter = {
+    A: function(item) { return item.A / 2; }
+};
+
+db.load('db2.csv', function() {
+                   console.log("Loaded csv file into database");
+});
+
+// Specify a new format.
+db.addFormat('asd', {
+   save: function(db, file, cb, options) {
+         // save file asynchronously.
+   },
+   load: function(db, file, cb, options) {
+         // load file asynchronously.
+   },
+   saveSync: function(db, file, cb, options) {
+         // save file synchronously.
+   },
+   loadSync: function(db, file, cb, options) {
+         // load file synchronously.
+   }
+});
+
+// Saving in the new format.
+db.save('db.asd');
 ```
 
-The above command are valid also in the browser environment if
-[Shelf.js](https://github.com/shakty/shelf.js) is loaded. A string id
-instead of the path to a file must be given instead.
+
+#### List of all available options
+
+```javascript
+{
+
+   flags: 'w',                        // The Node.js flag to write to fs.
+                                      // Default: 'a' (append).
+
+   encoding: 'utf-8',                 // The encoding of the file.
+
+   mode: 0777,                        // The permission given to the file.
+                                      // Default: 0666
+
+   // Options below are processed when the CSV format is detected.
+
+   headers: true,                     // if options.headers === true: use
+                                      //   first line of file as headers;
+                                      // if !options.headers: use
+                                      //   ['X1'...'XN'] as headers;
+                                      // if options.headers is an array of
+                                      //   strings use it as headers;
+                                      // if options.headers is an array
+                                      //   containing true/false use entry
+                                      //   from file/'Xi' respectively;
+
+
+   adapter: { A: function(row) {      // An obj containing callbacks for
+                  return row['A']-1;  // each header. The callbacks take
+                 }                    // an object of strings and
+            },                        // return a string. Each entry in
+                                      // the file is the result of
+                                      // applying the callback of its
+                                      // column to its row.
+
+
+   separator: ',',                    // The character used as separator
+                                      // between values. Default ','.
+
+   quote: '"',                        // The character used as quote.
+                                      // Default: '"'.
+
+   commentchar: '',                   // The character used for comments.
+                                      // Default: ''.
+
+   nestedQuotes: false,               // TRUE, if nested quotes allowed.
+                                      // Default FALSE.
+
+   escapeCharacter: '\\',             // The char that should be skipped.
+                                      // Default: \.
+}
+```
+
+### Saving and loading to the local storage (browser environment)
+
+Items persistance in the browser is available only if NDDB is built
+with the [Shelf.js](https://github.com/shakty/shelf.js)
+extension. Alternatively, a custom `store` function taking as input
+the name of the local database could be defined.
+
+All items will be saved in the JSON format.
+
+Notice that there exist limitations to maximum number of items that
+can be saved, depending on the local storage maximum capacity settings
+of the browser. If the limit is reached an error will be thrown.
+
 
 ## Test
 
@@ -442,23 +594,4 @@ node make.nddb.js doc
 
 ## License
 
-Copyright (C) 2014 Stefano Balietti
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[MIT](LICENSE)

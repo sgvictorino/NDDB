@@ -167,6 +167,14 @@
         // Objects shared (not cloned) among breeded NDDB instances
         this.__shared = {};
 
+        // ### __formats
+        // Currently supported formats for saving/loading items.
+        this.__formats = {};
+
+        // ### __defaultFormat
+        // Default format for saving and loading items.
+        this.__defaultFormat = null;
+
         // ### log
         // Std out for log messages
         //
@@ -212,16 +220,20 @@
            }
 
            return trigger2 === 0 ? 1 : 0;
-       });
+        });
+
+        // Add default formats (e.g. CSV, JSON in Node.js).
+        // See `/lib/fs.js`.
+        if ('function' === typeof this.addDefaultFormats) {
+            this.addDefaultFormats();
+        }
 
         // Mixing in user options and defaults.
         this.init(options);
 
         // Importing items, if any.
-        if (db) {
-            this.importDB(db);
-        }
-    };
+        if (db) this.importDB(db);
+    }
 
     /**
      * ### NDDB.addFilter
@@ -248,7 +260,7 @@
      * @param {string} op An alphanumeric id
      * @param {function} cb The callback function
      *
-     * @see QueryBuilder.registerDefaultOperators
+     * @see QueryBuilder.addDefaultOperators
      */
     NDDB.prototype.addFilter = function(op, cb) {
         this.filters[op] = cb;
@@ -256,7 +268,7 @@
     };
 
     /**
-     * ### NDDB.registerDefaultFilters
+     * ### NDDB.addDefaultFilters
      *
      * Register default filters for NDDB
      *
@@ -288,9 +300,9 @@
                     var d, c;
                     for (d in elem) {
                         c = that.getComparator(d);
-                        value[d] = value[0]['*']
+                        value[d] = value[0]['*'];
                         if (c(elem, value, 1) > 0) {
-                            value[d] = value[1]['*']
+                            value[d] = value[1]['*'];
                             if (c(elem, value, -1) < 0) {
                                 return elem;
                             }
@@ -302,7 +314,7 @@
                     else if ('undefined' !== typeof J.getNestedValue(d,elem)) {
                         return elem;
                     }
-                }
+                };
             }
             else {
                 return function(elem) {
@@ -312,7 +324,7 @@
                     else if ('undefined' !== typeof J.getNestedValue(d,elem)) {
                         return elem;
                     }
-                }
+                };
             }
         };
 
@@ -413,9 +425,9 @@
                     var d, c;
                     for (d in elem) {
                         c = that.getComparator(d);
-                        value[d] = value[0]['*']
+                        value[d] = value[0]['*'];
                         if (c(elem, value, 1) > 0) {
-                            value[d] = value[1]['*']
+                            value[d] = value[1]['*'];
                             if (c(elem, value, -1) < 0) {
                                 return elem;
                             }
@@ -502,11 +514,11 @@
                     for (i = 0; i < len; i++) {
                         obj[d] = value[i];
                         if (comparator(elem, obj, 0) === 0) {
-                            return
+                            return;
                         }
                     }
                     return elem;
-                }
+                };
             }
         };
 
@@ -587,13 +599,13 @@
      * @param {string} text Optional. The error text. Default, 'generic error'
      */
     NDDB.prototype.throwErr = function(type, method, text) {
-        var errMsg, miss;
+        var errMsg;
         text = text || 'generic error';
         errMsg = this._getConstrName();
         if (method) errMsg = errMsg + '.' + method;
         errMsg = errMsg + ': ' + text + '.';
         if (type === 'TypeError') throw new TypeError(errMsg);
-        throw new Error(errMg);
+        throw new Error(errMsg);
     };
 
     /**
@@ -733,6 +745,18 @@
                 }
             }
         }
+
+        if (options.formats) {
+            if ('object' !== typeof options.formats) {
+                errMsg = 'options.formats must be object or undefined';
+                this.throwErr('TypeError', 'init', errMsg);
+            }
+            for (i in options.formats) {
+                if (options.formats.hasOwnProperty(i)) {
+                    this.addFormat(i, options.formats[i]);
+                }
+            }
+        }
     };
 
     /**
@@ -752,10 +776,16 @@
             this.throwErr('TypeError', 'initLog', 'ctx must be object or ' +
                           'function');
         }
-        this.log = function(){
-            return cb.apply(ctx, arguments);
+        this.log = function() {
+            var args, i, len;
+            len = arguments.length;
+            args = new Array(len);
+            for (i = 0; i < len; i++) {
+                args[i] = arguments[i];
+            }
+            return cb.apply(ctx, args);
         };
-    }
+    };
 
     /**
      * ### NDDB._getConstrName
@@ -798,7 +828,7 @@
 
 
     /**
-     * ## .nddb_insert
+     * ## nddb_insert
      *
      * Insert an item into db and performs update operations
      *
@@ -820,8 +850,8 @@
     function nddb_insert(o, update) {
         var nddbid;
         if (('object' !== typeof o) && ('function' !== typeof o)) {
-            this.throwErr('TypeError', 'insert', 'object or function expected ' +
-                          typeof o + ' received.');
+            this.throwErr('TypeError', 'insert', 'object or function ' +
+                          'expected, ' + typeof o + ' received.');
         }
 
         // Check / create a global index.
@@ -829,7 +859,8 @@
             // Create internal idx.
             nddbid = J.uniqueKey(this.nddbid.resolve);
             if (!nddbid) {
-                this.throwErr('Error', 'insert', 'failed to create index: ' + o);
+                this.throwErr('Error', 'insert',
+                              'failed to create index: ' + o);
             }
             if (df) {
                 Object.defineProperty(o, '_nddbid', { value: nddbid });
@@ -969,6 +1000,7 @@
         options.hooks = this.hooks;
         options.globalCompare = this.globalCompare;
         options.filters = this.__userDefinedFilters;
+        options.formats = this.__formats;
 
         // Must be removed before cloning.
         if (options.log) {
@@ -1104,7 +1136,7 @@
      * @see NDDB.compare
      */
     NDDB.prototype.getComparator = function(d) {
-        var len, comparator, comparators;
+        var i, len, comparator, comparators;
 
         // Given field or '*'.
         if ('string' === typeof d) {
@@ -1185,7 +1217,7 @@
 
                 return trigger2 === 0 ? 1 : 0;
 
-            }
+            };
         }
         return comparator;
     };
@@ -1444,7 +1476,7 @@
      * @param {string} oldIdx Optional. The old index name, if any.
      */
     NDDB.prototype._indexIt = function(o, dbidx, oldIdx) {
-        var func, id, index, key;
+        var func, index, key;
         if (!o || J.isEmpty(this.__I)) return;
 
         for (key in this.__I) {
@@ -1478,7 +1510,7 @@
      * @see NDDB.view
      */
     NDDB.prototype._viewIt = function(o) {
-        var func, id, index, key, settings;
+        var func, index, key, settings;
         if (!o || J.isEmpty(this.__V)) return false;
 
         for (key in this.__V) {
@@ -1519,7 +1551,7 @@
      * @see NDDB.hash
      */
     NDDB.prototype._hashIt = function(o) {
-        var h, id, hash, key, settings, oldHash;
+        var h, hash, key, settings, oldHash;
         if (!o || J.isEmpty(this.__H)) return false;
 
         for (key in this.__H) {
@@ -1636,22 +1668,93 @@
     /**
      * ### NDDB.emit
      *
-     * Fires all the listeners associated with an event
+     * Fires all the listeners associated with an event (optimized)
      *
      * Accepts any number of parameters, the first one is the name
      * of the event, and the remaining will be passed to the event listeners.
      */
     NDDB.prototype.emit = function() {
-        var i, event;
-        event = Array.prototype.splice.call(arguments, 0, 1);
-        if ('string' !== typeof event[0]) {
+        var event;
+        var h, h2;
+        var i, len, argLen, args;
+        event = arguments[0];
+        if ('string' !== typeof event) {
             this.throwErr('TypeError', 'emit', 'first argument must be string');
         }
-        if (!this.hooks[event] || !this.hooks[event].length) {
-            return;
+        if (!this.hooks[event]) {
+            this.throwErr('TypeError', 'emit', 'unknown event: ' + event);
         }
-        for (i = 0; i < this.hooks[event].length; i++) {
-            this.hooks[event][i].apply(this, arguments);
+        len = this.hooks[event].length;
+        if (!len) return;
+        argLen = arguments.length;
+
+        switch(len) {
+
+        case 1:
+            h = this.hooks[event][0];
+            if (argLen === 1) h.call(this);
+            else if (argLen === 2) h.call(this, arguments[1]);
+            else if (argLen === 3) {
+                h.call(this, arguments[1], arguments[2]);
+            }
+            else {
+                args = new Array(argLen-1);
+                for (i = 0; i < argLen; i++) {
+                    args[i] = arguments[i+1];
+                }
+                h.apply(this, args);
+            }
+            break;
+        case 2:
+            h = this.hooks[event][0], h2 = this.hooks[event][1];
+            if (argLen === 1) {
+                h.call(this);
+                h2.call(this);
+            }
+            else if (argLen === 2) {
+                h.call(this, arguments[1]);
+                h2.call(this, arguments[1]);
+            }
+            else if (argLen === 3) {
+                h.call(this, arguments[1], arguments[2]);
+                h2.call(this, arguments[1], arguments[2]);
+            }
+            else {
+                args = new Array(argLen-1);
+                for (i = 0; i < argLen; i++) {
+                    args[i] = arguments[i+1];
+                }
+                h.apply(this, args);
+                h2.apply(this, args);
+            }
+            break;
+        default:
+
+             if (argLen === 1) {
+                 for (i = 0; i < len; i++) {
+                     this.hooks[event][i].call(this);
+                 }
+            }
+            else if (argLen === 2) {
+                for (i = 0; i < len; i++) {
+                    this.hooks[event][i].call(this, arguments[1]);
+                }
+            }
+            else if (argLen === 3) {
+                for (i = 0; i < len; i++) {
+                    this.hooks[event][i].call(this, arguments[1], arguments[2]);
+                }
+            }
+            else {
+                args = new Array(argLen-1);
+                for (i = 0; i < argLen; i++) {
+                    args[i] = arguments[i+1];
+                }
+                for (i = 0; i < len; i++) {
+                    this.hooks[event][i].apply(this, args);
+                }
+
+            }
         }
     };
 
@@ -1679,7 +1782,7 @@
      *   if an error was detected
      */
     NDDB.prototype._analyzeQuery = function(d, op, value) {
-        var i, len, newValue, errText;
+        var i, len, errText;
 
         if ('undefined' === typeof d) {
             queryError.call(this, 'undefined dimension', d, op, value);
@@ -1937,7 +2040,8 @@
     NDDB.prototype.exists = function(o) {
         var i, len, db;
         if ('object' !== typeof o && 'function' !== typeof o) {
-            this.throwErr('TypeError', 'exists', 'o must be object or function');
+            this.throwErr('TypeError', 'exists',
+                          'o must be object or function');
         }
         db = this.fetch();
         len = db.length;
@@ -2031,11 +2135,11 @@
             func = function(a,b) {
                 var i, result;
                 for (i = 0; i < d.length; i++) {
-                    result = that.getComparator(d[i]).call(that,a,b);
+                    result = that.getComparator(d[i]).call(that, a, b);
                     if (result !== 0) return result;
                 }
                 return result;
-            }
+            };
         }
         // Single dimension.
         else {
@@ -2089,7 +2193,7 @@
     };
 
     /**
-     * ### NDDB.each || NDDB.forEach
+     * ### NDDB.each || NDDB.forEach (optimized)
      *
      * Applies a callback function to each element in the db
      *
@@ -2103,7 +2207,7 @@
      * @see NDDB.map
      */
     NDDB.prototype.each = NDDB.prototype.forEach = function() {
-        var func, i, db, len;
+        var func, i, db, len, args, argLen;
         func = arguments[0];
         if ('function' !== typeof func) {
             this.throwErr('TypeError', 'each',
@@ -2111,9 +2215,33 @@
         }
         db = this.fetch();
         len = db.length;
-        for (i = 0 ; i < len ; i++) {
-            arguments[0] = db[i];
-            func.apply(this, arguments);
+        argLen = arguments.length;
+        switch(argLen) {
+        case 1:
+            for (i = 0 ; i < len ; i++) {
+                func.call(this, db[i]);
+            }
+            break;
+        case 2:
+            for (i = 0 ; i < len ; i++) {
+                func.call(this, db[i], arguments[1]);
+            }
+            break;
+        case 3:
+            for (i = 0 ; i < len ; i++) {
+                func.call(this, db[i], arguments[1], arguments[2]);
+            }
+            break;
+        default:
+            args = new Array(argLen+1);
+            args[0] = null;
+            for (i = 1; i < argLen; i++) {
+                args[i] = arguments[i];
+            }
+            for (i = 0 ; i < len ; i++) {
+                args[0] = db[i];
+                func.apply(this, args);
+            }
         }
     };
 
@@ -2133,17 +2261,46 @@
      */
     NDDB.prototype.map = function() {
         var func, i, db, len, out, o;
+        var args, argLen;
         func = arguments[0];
         if ('function' !== typeof func) {
-            this.throwErr('TypeError', 'map', 'first argument must be function');
+            this.throwErr('TypeError', 'map',
+                          'first argument must be function');
         }
         db = this.fetch();
         len = db.length;
+        argLen = arguments.length;
         out = [];
-        for (i = 0 ; i < db.length ; i++) {
-            arguments[0] = db[i];
-            o = func.apply(this, arguments);
-            if ('undefined' !== typeof o) out.push(o);
+        switch(argLen) {
+        case 1:
+            for (i = 0 ; i < len ; i++) {
+                o = func.call(this, db[i]);
+                if ('undefined' !== typeof o) out.push(o);
+            }
+            break;
+        case 2:
+            for (i = 0 ; i < len ; i++) {
+                o = func.call(this, db[i], arguments[1]);
+                if ('undefined' !== typeof o) out.push(o);
+            }
+            break;
+        case 3:
+            for (i = 0 ; i < len ; i++) {
+                o = func.call(this, db[i], arguments[1], arguments[2]);
+                if ('undefined' !== typeof o) out.push(o);
+            }
+            break;
+        default:
+            args = new Array(argLen+1);
+            args[0] = null;
+            for (i = 1; i < argLen; i++) {
+                args[i] = arguments[i];
+            }
+            for (i = 0 ; i < len ; i++) {
+                args[0] = db[i];
+                o = func.apply(this, args);
+                if ('undefined' !== typeof o) out.push(o);
+            }
         }
         return out;
     };
@@ -2234,13 +2391,13 @@
             this.hashtray.clear();
 
             for (i in this.__H) {
-                if (this[i]) delete this[i]
+                if (this[i]) delete this[i];
             }
             for (i in this.__C) {
-                if (this[i]) delete this[i]
+                if (this[i]) delete this[i];
             }
             for (i in this.__I) {
-                if (this[i]) delete this[i]
+                if (this[i]) delete this[i];
             }
         }
         else {
@@ -2329,7 +2486,6 @@
      *
      * A new NDDB object breeded, so that further methods can be chained.
      *
-     * @api private
      * @param {string} key1 First property to compare
      * @param {string} key2 Second property to compare
      * @param {function} comparator Optional. A comparator function.
@@ -2342,6 +2498,8 @@
      * @return {NDDB} A new database containing the joined entries
      *
      * @see NDDB.breed
+     *
+     * @api private
      */
     NDDB.prototype._join = function(key1, key2, comparator, pos, select) {
         var out, idxs, foreign_key, key;
@@ -2583,11 +2741,11 @@
 
     function getValuesArray(o, key) {
         return J.obj2Array(o, 1);
-    };
+    }
 
     function getKeyValuesArray(o, key) {
         return J.obj2KeyedArray(o, 1);
-    };
+    }
 
 
     function getValuesArray_KeyString(o, key) {
@@ -2595,14 +2753,14 @@
         if ('undefined' !== typeof el) {
             return J.obj2Array(el,1);
         }
-    };
+    }
 
     function getValuesArray_KeyArray(o, key) {
         var el = J.subobj(o, key);
         if (!J.isEmpty(el)) {
             return J.obj2Array(el,1);
         }
-    };
+    }
 
 
     function getKeyValuesArray_KeyString(o, key) {
@@ -2610,14 +2768,14 @@
         if ('undefined' !== typeof el) {
             return key.split('.').concat(J.obj2KeyedArray(el));
         }
-    };
+    }
 
     function getKeyValuesArray_KeyArray(o, key) {
         var el = J.subobj(o, key);
         if (!J.isEmpty(el)) {
             return J.obj2KeyedArray(el);
         }
-    };
+    }
 
     /**
      * ### NDDB._fetchArray
@@ -2691,7 +2849,7 @@
         }
 
         return out;
-    }
+    };
 
     /**
      * ### NDDB.fetchArray
@@ -3319,108 +3477,333 @@
         return this.tags[tag];
     };
 
-    // ## Persistance
+    // ## Save/Load.
 
-    /**
-     * ### NDDB.storageAvailable
-     *
-     * Returns true if db can be saved to a persistent medium
-     *
-     * It checks for the existence of a global `store` object,
-     * usually provided  by libraries like `shelf.js`.
-     *
-     * return {boolean} TRUE, if storage is available
-     */
-    NDDB.prototype.storageAvailable = function() {
-        return ('function' === typeof store);
-    }
-
-    /**
-     * ### NDDB.save
-     *
-     * Saves the database to a persistent medium in JSON format
-     *
-     * Looks for a global store` method to load from the browser database.
-     * The `store` method is supploed by shelf.js.
-     * If no `store` object is found, an error is issued and the database
-     * is not saved.
-     *
-     * Cyclic objects are decycled, and do not cause errors.
-     * Upon loading, the cycles are restored.
-     *
-     * @param {string} file The  identifier for the browser database
-     * @param {function} cb Optional. A callback to execute after
-     *    the database is saved
-     * @param {compress} boolean Optional. If TRUE, output will be compressed.
-     *    Defaults, FALSE
-     *
-     * @see NDDB.load
-     * @see NDDB.stringify
-     * @see https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
-     */
-    NDDB.prototype.save = function(file, cb, compress) {
-        if ('string' !== typeof file) {
-            this.throwErr('TypeError', 'save', 'file must be string');
-        }
-        compress = compress || false;
-        // Try to save in the browser, e.g. with Shelf.js.
-        if (!this.storageAvailable()) {
-            this.throwErr('Error', 'save', 'no persistent storage available');
-        }
-        store(file, this.stringify(compress));
-        if (cb) cb();
-    };
 
     /**
      * ### NDDB.load
      *
-     * Loads a JSON object into the database from a persistent medium
+     * Reads items in the specified format and loads them into db asynchronously
      *
-     * Looks for a global `store` method to load from the browser database.
-     * The `store` method is supplied by shelf.js.
-     * If no `store` object is found, an error is issued and the database
-     * is not loaded.
+     * @param {string} file The name of the file or other persistent storage
+     * @param {object} options Optional. A configuration object. Available
+     *    options are format-dependent.
+     * @param {function} cb Optional. A callback function to execute at
+     *    the end of the operation. If options is not specified,
+     *    cb is the second parameter.
      *
-     * Cyclic objects previously decycled will be retrocycled.
-     *
-     * @param {string} file The file system path, or the identifier
-     *   for the browser database
-     * @param {function} cb Optional. A callback to execute after
-     *   the database was saved
-     *
-     * @see NDDB.loadCSV
-     * @see NDDB.save
-     * @see NDDB.stringify
-     * @see JSUS.parse
-     * @see https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
+     * @see NDDB.loadSync
      */
-    NDDB.prototype.load = function(file, cb, options) {
-        var items, i;
-        if ('string' !== typeof file) {
-            this.throwErr('TypeError', 'load', 'file must be string');
+    NDDB.prototype.load = function(file, options, cb) {
+        if (arguments.length === 2 && 'function' === typeof options) {
+            cb = options;
+            options = undefined;
         }
-        if (!this.storageAvailable()) {
-            this.throwErr('Error', 'load', 'no persistent storage found');
-        }
-
-        items = store(file);
-
-        if ('undefined' === typeof items) {
-            // Nothing to load.
-            return;
-        }
-        if ('string' === typeof items) {
-            items = J.parse(items);
-        }
-        if (!J.isArray(items)) {
-            this.throwErr('Error', 'load', 'expects to load an array');
-        }
-        for (i = 0; i < items.length; i++) {
-            // Retrocycle, if necessary and possible.
-            items[i] = NDDB.retrocycle(items[i]);
-        }
-        this.importDB(items);
+        executeSaveLoad(this, 'load', file, cb, options);
     };
+
+    /**
+     * ### NDDB.save
+     *
+     * Saves items in the specified format asynchronously
+     *
+     * @see NDDB.saveSync
+     */
+    NDDB.prototype.save = function(file, options, cb) {
+        if (arguments.length === 2 && 'function' === typeof options) {
+            cb = options;
+            options = undefined;
+        }
+        executeSaveLoad(this, 'save', file, cb, options);
+    };
+
+    /**
+     * ### NDDB.loadSync
+     *
+     * Reads items in the specified format and loads them into db synchronously
+     *
+     * @see NDDB.load
+     */
+    NDDB.prototype.loadSync = function(file, options, cb) {
+        if (arguments.length === 2 && 'function' === typeof options) {
+            cb = options;
+            options = undefined;
+        }
+        executeSaveLoad(this, 'loadSync', file, cb, options);
+    };
+
+    /**
+     * ### NDDB.saveSync
+     *
+     * Saves items in the specified format synchronously
+     *
+     * @see NDDB.save
+     */
+    NDDB.prototype.saveSync = function(file, options, cb) {
+        if (arguments.length === 2 && 'function' === typeof options) {
+            cb = options;
+            options = undefined;
+        }
+        executeSaveLoad(this, 'saveSync', file, cb, options);
+    };
+
+    // ## Formats.
+
+    /**
+     * ### NDDB.addFormat
+     *
+     * Registers a _format_ function
+     *
+     * The format object is of the type:
+     *
+     *     {
+     *       load:     function() {}, // Async
+     *       save:     function() {}, // Async
+     *       loadSync: function() {}, // Sync
+     *       saveSync: function() {}  // Sync
+     *     }
+     *
+     * @param {string|array} format The format name/s
+     * @param {object} The format object containing at least one
+     *   pair of save/load functions (sync and async)
+     */
+    NDDB.prototype.addFormat = function(format, obj) {
+        var f, i, len;
+        validateFormatParameters(this, format, obj);
+        if (!J.isArray(format)) format = [format];
+        i = -1, len = format.length;
+        for ( ; ++i < len ; ) {
+            f = format[i];
+            if ('string' !== typeof f || f.trim() === '') {
+                this.throwErr('TypeError', 'addFormat', 'format must be ' +
+                              'a non-empty string');
+            }
+            this.__formats[f] = obj;
+        }
+    };
+
+    /**
+     * ### NDDB.getFormat
+     *
+     * Returns the requested  _format_ function
+     *
+     * @param {string} format The format name
+     * @param {string} method Optional. One of:
+     *   `save`,`load`,`saveString`,`loadString`.
+     *
+     * @return {function|object} Format object or function or NULL if not found.
+     */
+    NDDB.prototype.getFormat = function(format, method) {
+        var f;
+        if ('string' !== typeof format) {
+            this.throwErr('TypeError', 'getFormat', 'format must be string');
+        }
+        if (method && 'string' !== typeof method) {
+            this.throwErr('TypeError', 'getFormat', 'method must be string ' +
+                          'or undefined');
+        }
+        f = this.__formats[format];
+        if (f && method) f = f[method];
+        return f || null;
+    };
+
+    /**
+     * ### NDDB.setDefaultFormat
+     *
+     * Sets the default format
+     *
+     * @param {string} format The format name or null
+     *
+     * @see NDDB.getDefaultFormat
+     */
+    NDDB.prototype.setDefaultFormat = function(format) {
+         if (format !== null &&
+            ('string' !== typeof format || format.trim() === '')) {
+
+            this.throwErr('TypeError', 'setDefaultFormat', 'format must be ' +
+                          'a non-empty string or null');
+        }
+        if (format && !this.__formats[format]) {
+            this.throwErr('Error', 'setDefaultFormat', 'unknown format: ' +
+                          format);
+        }
+        this.__defaultFormat = format;
+    };
+
+    /**
+     * ### NDDB.getDefaultFormat
+     *
+     * Returns the default format
+     *
+     * @see NDDB.setDefaultFormat
+     */
+    NDDB.prototype.getDefaultFormat = function() {
+        return this.__defaultFormat;
+    };
+
+    /**
+     * ### NDDB.addDefaultFormats
+     *
+     * Dummy property. If overwritten it will be invoked by constructor
+     */
+    NDDB.prototype.addDefaultFormats = null;
+
+
+    // ## Helper Methods
+
+    /**
+     * ### validateSaveLoadParameters
+     *
+     * Validates the parameters of a call to save, saveSync, load, loadSync
+     *
+     * @param {NDDB} that The reference to the current instance
+     * @param {string} method The name of the method invoking validation
+     * @param {string} file The file parameter
+     * @param {function} cb The callback parameter
+     * @param {object} The options parameter
+     */
+    function validateSaveLoadParameters(that, method, file, cb, options) {
+        if ('string' !== typeof file || file.trim() === '') {
+            that.throwErr('TypeError', method, 'file must be ' +
+                          'a non-empty string');
+        }
+        if (cb && 'function' !== typeof cb) {
+            that.throwErr('TypeError', method, 'cb must be function ' +
+                          'or undefined');
+        }
+        if (options && 'object' !== typeof options) {
+            that.throwErr('TypeError', method, 'options must be object ' +
+                          'or undefined');
+        }
+    }
+
+    /**
+     * ### extractExtension
+     *
+     * Extracts the extension from a file name
+     *
+     * @param {string} file The filename
+     *
+     * @return {string} The extension or NULL if not found
+     */
+    function extractExtension(file) {
+        var format;
+        format = file.lastIndexOf('.');
+        return format < 0 ? null : file.substr(format+1);
+    }
+
+    /**
+     * ### executeSaveLoad
+     *
+     * Fetches the right format and executes save, saveSync, load, or loadSync
+     *
+     * @param {NDDB} that The reference to the current instance
+     * @param {string} method The name of the method invoking validation
+     * @param {string} file The file parameter
+     * @param {function} cb The callback parameter
+     * @param {object} The options parameter
+     */
+    function executeSaveLoad(that, method, file, cb, options) {
+        var ff, format;
+        validateSaveLoadParameters(that, method, file, cb, options);
+        if (!that.storageAvailable()) {
+            that.throwErr('Error', 'save', 'no persistent storage available');
+        }
+        options = options || {};
+        format = extractExtension(file);
+        // If try to get the format function based on the extension,
+        // otherwise try to use the default one. Throws errors.
+        ff = findFormatFunction(that, method, format);
+        ff(that, file, cb, options);
+    }
+
+    /**
+     * ### findFormatFunction
+     *
+     * Returns the requested format function or the default one
+     *
+     * Throws errors.
+     *
+     * @param {NDDB} that The reference to the current instance
+     * @param {string} method The name of the method invoking validation
+     * @param {string} format The requested parameter
+     *
+     * @return {function} The requested format function
+     */
+    function findFormatFunction(that, method, format) {
+        var ff, defFormat;
+        if (format) ff = that.getFormat(format);
+        if (ff) {
+            if (!ff[method]) {
+                that.throwErr('Error', method, 'format ' + format + ' found, ' +
+                              'but method ' + method + ' not available');
+            }
+            ff = ff[method];
+        }
+        // Try to get default format, if the extension is not recognized.
+        if (!ff) {
+            defFormat = that.getDefaultFormat();
+            if (!defFormat) {
+                that.throwErr('Error', method, 'format ' + format + ' not ' +
+                              'found and no default format specified');
+            }
+            ff = that.getFormat(defFormat, method);
+            if (!ff) {
+                that.throwErr('Error', method, 'format ' + format + ' not ' +
+                              'found, but default format has no method ' +
+                              method);
+            }
+        }
+        return ff;
+    }
+    /**
+     * ### validateFormatParameters
+     *
+     * Validates the parameters of a call to save, saveSync, load, loadSync
+     *
+     * @param {NDDB} that The reference to the current instance
+     * @param {string|array} method The name/s of format/s
+     * @param {object} obj The format object
+     */
+    function validateFormatParameters(that, format, obj) {
+        if ('string' !== typeof format &&
+            !J.isArray(format) && !format.length) {
+
+            that.throwErr('TypeError', 'addFormat', 'format must be ' +
+                            'a non-empty string or array');
+        }
+        if ('object' !== typeof obj) {
+            that.throwErr('TypeError', 'addFormat', 'obj must be object');
+        }
+        if (!obj.save && !obj.saveSync) {
+            that.throwErr('Error', 'addFormat', 'format must ' +
+                          'at least one save function: sync or async');
+        }
+        if (!obj.load && !obj.loadSync) {
+            that.throwErr('Error', 'addFormat', 'format must ' +
+                          'at least one load function: sync or async');
+        }
+        if (obj.save || obj.load) {
+            if ('function' !== typeof obj.save) {
+                that.throwErr('TypeError', 'addFormat',
+                              'save function is not a function');
+            }
+            if ('function' !== typeof obj.load) {
+                that.throwErr('TypeError', 'addFormat',
+                              'load function is not a function');
+            }
+        }
+        if (obj.saveSync || obj.loadSync) {
+            if ('function' !== typeof obj.saveSync) {
+                that.throwErr('TypeError', 'addFormat',
+                              'saveSync function is not a function');
+            }
+            if ('function' !== typeof obj.loadSync) {
+                that.throwErr('TypeError', 'addFormat',
+                              'loadSync function is not a function');
+            }
+        }
+    }
 
     /**
      * # QueryBuilder
@@ -3481,7 +3864,7 @@
 
     function findCallback(obj) {
         return obj.cb;
-    };
+    }
 
     /**
      * ### QueryBuilder.get
@@ -3501,13 +3884,12 @@
      *   conditions
      */
     QueryBuilder.prototype.get = function() {
-        var line, lineLen, f1, f2, f3, type1, type2, i;
+        var line, lineLen, f1, f2, f3, type1, type2;
         var query = this.query, pointer = this.pointer;
-        var operators = this.operators;
 
         // Ready to support nested queries, not yet implemented.
         if (pointer === 0) {
-            line = query[pointer]
+            line = query[pointer];
             lineLen = line.length;
 
             if (lineLen === 1) {
@@ -3524,18 +3906,18 @@
                     return function(elem) {
                         if ('undefined' !== typeof f1(elem)) return elem;
                         if ('undefined' !== typeof f2(elem)) return elem;
-                    }
+                    };
                 case 'AND':
                     return function(elem) {
                         if ('undefined' !== typeof f1(elem) &&
                             'undefined' !== typeof f2(elem)) return elem;
-                    }
+                    };
 
                 case 'NOT':
                     return function(elem) {
                         if ('undefined' !== typeof f1(elem) &&
                             'undefined' === typeof f2(elem)) return elem;
-                    }
+                    };
                 }
             }
 
@@ -3608,7 +3990,7 @@
 
                     }
                     return elem;
-                }
+                };
 
             }
 

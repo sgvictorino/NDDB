@@ -500,25 +500,44 @@ db.save('db.asd');
 
    // Options below are processed when the CSV format is detected.
 
-   headers: true,                     // if options.headers === true: use
-                                      //   first line of file as headers;
-                                      // if !options.headers: use
-                                      //   ['X1'...'XN'] as headers;
-                                      // if options.headers is an array of
-                                      //   strings use it as headers;
-                                      // if options.headers is an array
-                                      //   containing true/false use entry
-                                      //   from file/'Xi' respectively;
+   headers: true,                     // Loading:
+                                      //  - true: use first line of
+                                      //      file as key names (default)
+                                      //  - false: use [ 'X1'...'XN' ]
+                                      //      as key names;
+                                      //  - array of strings: used as
+                                      //      is as key names;
+                                      //  - array of booleans: selects
+                                      //      key names in order from
+                                      //      columns in csv file
+                                      //
+                                      // Saving:
+                                      //  - true: use keys of first
+                                      //      item as column names (default)
+                                      //  - 'all': collect all keys
+                                      //      from all elements and use
+                                      //      as column names
+                                      //  - function: a callback that
+                                      //      takes each unique key in
+                                      //      the db and returns: 
+                                      //      another substitute string,
+                                      //      an array of strings to add,
+                                      //      null to exclude the key,
+                                      //      undefined to keep it.
+                                      //  - false: no headers
+                                      //  - array of strings: used as
+                                      //      is for column names (keys
+                                      //      not listed are omitted)
+                                      
 
 
    adapter: { A: function(row) {      // An obj containing callbacks for
-                  return row['A']-1;  // each header. The callbacks take
-                 }                    // an object of strings and
-            },                        // return a string. Each entry in
-                                      // the file is the result of
-                                      // applying the callback of its
-                                      // column to its row.
-
+                  return row['A']-1;  // given csv columns. Callbacks take
+                 }                    // an object (a row of the csv 
+            },                        // file, or an item of the
+                                      // database) and return a value to
+                                      // be saved to file or inserted
+                                      // in the object's key.
 
    separator: ',',                    // The character used as separator
                                       // between values. Default ','.

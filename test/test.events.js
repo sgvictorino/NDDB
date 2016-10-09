@@ -38,12 +38,11 @@ var items = [
         title: "Olympia",
         year: 1863
     },
-
 ];
 
 var p1 = 10, p2 = 100, p3 = 1000;
-
 var copy = null, copy2 = null;
+var counter = 0;
 
 describe('NDDB Events', function() {
 
@@ -187,4 +186,27 @@ describe('NDDB Events', function() {
 
     });
 
+});
+
+describe('NDDB Events with auto-update indexes and hashes', function() {
+
+    describe('#on(\'insert\') ', function() {
+        before(function() {
+            db = new NDDB({update: { indexes: true }});
+            copy = [];
+            db.hash('painter', function(o) {
+                return o.painter;
+            });
+            db.on('insert', function(o) {
+                copy.push(o);
+            });
+            db.insert(items[0]);
+        });
+
+        it('should copy all the inserted elements', function() {
+            copy.length.should.eql(1);
+        });
+
+
+    });
 });

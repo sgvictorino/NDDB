@@ -1,6 +1,6 @@
 /**
  * # NDDB: N-Dimensional Database
- * Copyright(c) 2015 Stefano Balietti
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * NDDB is a powerful and versatile object database for node.js and the browser.
@@ -80,7 +80,7 @@
         // ## Public properties.
 
         // ### nddbid
-        // A global index of all objects
+        // A global index of all objects.
         this.nddbid = new NDDBIndex('nddbid', this);
 
         // ### db
@@ -594,10 +594,14 @@
      * @param {string} type Optional. The error type, e.g. 'TypeError'.
      *   Default, 'Error'
      * @param {string} method Optional. The name of the method
-     * @param {string} text Optional. The error text. Default, 'generic error'
+     * @param {string|object} err Optional. The error. Default, 'generic error'
      */
-    NDDB.prototype.throwErr = function(type, method, text) {
-        var errMsg;
+    NDDB.prototype.throwErr = function(type, method, err) {
+        var errMsg, text;
+
+        if ('object' === typeof err) text = err.stack || err;
+        else if ('string' === typeof err) text = err;
+
         text = text || 'generic error';
         errMsg = this._getConstrName();
         if (method) errMsg = errMsg + '.' + method;
@@ -810,18 +814,12 @@
      * @api private
      */
     NDDB.prototype._autoUpdate = function(options) {
-        var update = options ? J.merge(this.__update, options) : this.__update;
+        var update;
+        update = options ? J.merge(this.__update, options) : this.__update;
 
-        if (update.pointer) {
-            this.nddb_pointer = this.db.length-1;
-        }
-        if (update.sort) {
-            this.sort();
-        }
-
-        if (update.indexes) {
-            this.rebuildIndexes();
-        }
+        if (update.pointer) this.nddb_pointer = this.db.length-1;
+        if (update.sort) this.sort();
+        if (update.indexes) this.rebuildIndexes();
     };
 
     /**
@@ -1017,19 +1015,19 @@
      */
     NDDB.prototype.stringify = function(compressed) {
         var spaces, out;
+        var item, i, len;
         if (!this.size()) return '[]';
         compressed = ('undefined' === typeof compressed) ? true : compressed;
-
         spaces = compressed ? 0 : 4;
-
         out = '[';
-        this.each(function(e) {
-            // Decycle, if possible
-            e = NDDB.decycle(e);
-            out += J.stringify(e, spaces) + ', ';
-        });
-        out = out.replace(/, $/,']');
-
+        i = -1, len = this.db.length;
+        for ( ; ++i < len ; ) {
+            // Decycle, if possible.
+            item = NDDB.decycle(this.db[i]);
+            out += J.stringify(item, spaces);
+            if (i !== len-1) out += ', ';
+        }
+        out += ']';
         return out;
     };
 
@@ -1340,11 +1338,12 @@
      * @see NDDB._hashIt
      */
     NDDB.prototype.rebuildIndexes = function() {
-        var h = !(J.isEmpty(this.__H)),
-        i = !(J.isEmpty(this.__I)),
+        var h, i, v, cb, idx;
+
+        h = !(J.isEmpty(this.__H));
+        i = !(J.isEmpty(this.__I));
         v = !(J.isEmpty(this.__V));
 
-        var cb, idx;
         if (!h && !i && !v) return;
 
         if (h && !i && !v) {
@@ -1461,8 +1460,8 @@
                     // Create a copy of the current settings,
                     // without the views functions, otherwise
                     // we establish an infinite loop in the
-                    // constructor.
-                    settings = this.cloneSettings({V: ''});
+                    // constructor, and the hooks.
+                    settings = this.cloneSettings({ V: true, hooks: true });
                     this[key] = new NDDB(settings);
                 }
                 this[key].insert(o);
@@ -1501,8 +1500,9 @@
                 if (!this[key][hash]) {
                     // Create a copy of the current settings,
                     // without the hashing functions, otherwise
-                    // we crate an infinite loop at first insert.
-                    settings = this.cloneSettings({H: ''});
+                    // we create an infinite loop at first insert,
+                    // and the hooks (should be called only on main db).
+                    settings = this.cloneSettings({ H: true, hooks: true });
                     this[key][hash] = new NDDB(settings);
                 }
                 this[key][hash].insert(o);
@@ -1732,7 +1732,7 @@
             }
 
             // Range-queries need an array as third parameter instance of Array.
-            if (J.in_array(op,['><', '<>', 'in', '!in'])) {
+            if (J.inArray(op,['><', '<>', 'in', '!in'])) {
 
                 if (!(value instanceof Array)) {
                     errText = 'range-queries need an array as third parameter';
@@ -1749,7 +1749,7 @@
                 }
             }
 
-            else if (J.in_array(op, ['!=', '>', '==', '>=', '<', '<='])){
+            else if (J.inArray(op, ['!=', '>', '==', '>=', '<', '<='])){
                 // Comparison queries need a third parameter.
                 if ('undefined' === typeof value) {
                     errText = 'value cannot be undefined in comparison queries';
@@ -2284,6 +2284,8 @@
      * Removes all entries from the database
      *
      * @return {NDDB} A new instance of NDDB with no entries
+     *
+     * TODO: do we still need this method?
      */
     NDDB.prototype.removeAllEntries = function() {
         if (!this.db.length) return this;
@@ -2303,38 +2305,27 @@
      * and resets the current query selection
      *
      * Hooks, indexing, comparator, views, and hash functions are not deleted.
-     *
-     * Requires an additional parameter to confirm the deletion.
-     *
-     * @return {boolean} TRUE, if the database was cleared
      */
-    NDDB.prototype.clear = function(confirm) {
+    NDDB.prototype.clear = function() {
         var i;
-        if (confirm) {
-            this.db = [];
-            this.nddbid.resolve = {};
-            this.tags = {};
-            this.query.reset();
-            this.nddb_pointer = 0;
-            this.lastSelection = [];
-            this.hashtray.clear();
 
-            for (i in this.__H) {
-                if (this[i]) delete this[i];
-            }
-            for (i in this.__C) {
-                if (this[i]) delete this[i];
-            }
-            for (i in this.__I) {
-                if (this[i]) delete this[i];
-            }
-        }
-        else {
-            this.log('Do you really want to clear the current dataset? ' +
-                     'Please use clear(true)', 'WARN');
-        }
+        this.db = [];
+        this.nddbid.resolve = {};
+        this.tags = {};
+        this.query.reset();
+        this.nddb_pointer = 0;
+        this.lastSelection = [];
+        this.hashtray.clear();
 
-        return confirm;
+        for (i in this.__H) {
+            if (this[i]) this[i] = null;
+        }
+        for (i in this.__C) {
+            if (this[i]) this[i] = null;
+        }
+        for (i in this.__I) {
+            if (this[i]) this[i] = null;
+        }
     };
 
 
@@ -2469,20 +2460,23 @@
     /**
      * ### NDDB.split
      *
-     * Splits all the entries  containing the specified dimension
+     * Splits recursively all the entries containing the specified dimension
      *
      * If a active selection if found, operation is applied only to the subset.
      *
-     * New entries are created and a new NDDB object is breeded
-     * to allows method chaining.
+     * A NDDB object is breeded containing all the split items.
      *
      * @param {string} key The dimension along which items will be split
+     * @param {number} level Optional. Limits how deep to perform the split.
+     *   Value equal to 0 means no limit in the recursive split.
+     * @param {boolean} positionAsKey Optional. If TRUE, when splitting an
+     *   array the position of an element is used as key. Default: FALSE.
      *
      * @return {NDDB} A new database containing the split entries
      *
      * @see JSUS.split
      */
-    NDDB.prototype.split = function(key) {
+    NDDB.prototype.split = function(key, level, positionAsKey) {
         var out, i, db, len;
         if ('string' !== typeof key) {
             this.throwErr('TypeError', 'split', 'key must be string');
@@ -2491,7 +2485,7 @@
         len = db.length;
         out = [];
         for (i = 0; i < len; i++) {
-            out = out.concat(J.split(db[i], key));
+            out = out.concat(J.split(db[i], key, level, positionAsKey));
         }
         return this.breed(out);
     };
@@ -2869,7 +2863,7 @@
      * groups[1].fetch(); // [ { a: 3, b: 4 } ]
      * ```
      *
-     * @param {string} key If the dimension for grouping
+     * @param {string} key The dimension for grouping
      *
      * @return {array} outs The array of NDDB (or constructor) groups
      */
@@ -2883,7 +2877,7 @@
             el = J.getNestedValue(key, db[i]);
             if ('undefined' === typeof el) continue;
             // Creates a new group and add entries to it.
-            if (!J.in_array(el, groups)) {
+            if (!J.inArray(el, groups)) {
                 groups.push(el);
                 out = this.filter(function(elem) {
                     if (J.equals(J.getNestedValue(key, elem), el)) {
@@ -3740,6 +3734,7 @@
         }
         return ff;
     }
+
     /**
      * ### validateFormatParameters
      *
@@ -4101,6 +4096,7 @@
      * Removes and entry from the database with the given id and returns it
      *
      * @param {mixed} idx The id of item to remove
+     *
      * @return {object|boolean} The removed item, or FALSE if index is invalid
      *
      * @see NDDB.index
@@ -4127,9 +4123,10 @@
     /**
      * ### NDDBIndex.update
      *
-     * Removes and entry from the database with the given id and returns it
+     * Updates an entry with the given id
      *
      * @param {mixed} idx The id of item to update
+     *
      * @return {object|boolean} The updated item, or FALSE if index is invalid
      *
      * @see NDDB.index

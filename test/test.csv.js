@@ -14,6 +14,8 @@ var options;
 var filename = {
     standard: __dirname + '/data.csv',
     escapeTesting: __dirname + '/data.escapetest.csv',
+    escapeTestingNoQuotes: __dirname + '/data.escapetest_noquotes.csv',
+    unescapeTesting: __dirname + '/data.unescapetest.csv',
     simon: __dirname + '/data.simon.csv',
     linebreak: __dirname + '/data.linebreak.csv',
     temp: function(num) {
@@ -22,15 +24,15 @@ var filename = {
 };
 
 var lastItem = {
-    A: "10",
-    B: "11",
+    A: 10,
+    B: 11,
     C: "12",
     D: "Z4"
 };
 
 var lastItemUnescaped = {
-    '"A"': '"10"',
-    '"B"': '"11"',
+    '"A"': 10,
+    '"B"': 11,
     '"C"': '"12"',
     '"D"': '"Z4"'
 };
@@ -40,7 +42,6 @@ var deleteIfExists = function(filename) {
         fs.unlinkSync(filename);
     }
 };
-
 
 function getLoadTests(m, it) {
 
@@ -82,10 +83,10 @@ function getLoadTests(m, it) {
         function(done) {
         db = new NDDB();
 
-        db.load(filename.standard,function() {
+        db.load(filename.standard, function() {
             db.save(filename.linebreak, { lineBreak: '\r\n' }, function() {
                 db = new NDDB();
-                db[m](filename.linebreak, {lineBreak: '\r\n'} , function() {
+                db[m](filename.linebreak, { lineBreak: '\r\n' } , function() {
                     db.size().should.eql(4);
                     db.last().should.be.eql(lastItem);
 
@@ -113,8 +114,8 @@ function getLoadTests(m, it) {
                 r: 'D'
             });
             db.last().should.be.eql({
-                q: '10',
-                w: '11',
+                q: 10,
+                w: 11,
                 e: '12',
                 r: 'Z4'
             });
@@ -147,7 +148,38 @@ function getLoadTests(m, it) {
 
     });
 
-    it('should ' + m + ' a csv file with pre-defined adapter', function(done) {
+    it('should ' + m + ' a csv file with adapter with strings', function(done) {
+        var options, adapterMaker;
+
+        // Doubles all floats
+        options = {
+            adapter: {
+                q: 'e',
+                e: 'r',
+                r: 'q'
+            },
+            headers: ['q', 'w', 'e', 'r']
+        };
+        db = new NDDB();
+        db[m](filename.standard, options, function() {
+            db.size().should.eql(5);
+            db.first().should.be.eql({
+                q: 'C',
+                w: 'B',
+                e: 'D',
+                r: 'A'
+            });
+            db.last().should.be.eql({
+                q: '12',
+                w: 11,
+                e: 'Z4',
+                r: 10
+            });
+            done();
+        });
+    });
+
+    it('should ' + m + ' a csv file with adapter with cbs', function(done) {
         var options, adapterMaker;
 
         adapterMaker = function(str) {
@@ -179,7 +211,7 @@ function getLoadTests(m, it) {
             });
             db.last().should.be.eql({
                 q: '20',
-                w: '11',
+                w: 11,
                 e: '24',
                 r: 'Z4'
             });
@@ -187,10 +219,48 @@ function getLoadTests(m, it) {
         });
     });
 
-    it('should ' + m + ' a csv file with def. options and unescape separators',
+    it('should ' + m + ' a csv file with def. options and unescaped separators',
+       function(done) {
+           db = new NDDB();
+           db[m](filename.unescapeTesting, function() {
+               db.size().should.eql(4);
+               db.first();
+               db.next();
+               db.next().should.be.eql({
+                   A: '7,5',
+                   B: '8',
+                   C: '9',
+                   D: 'Z3'
+               });
+               done();
+           });
+
+       });
+
+    it('should ' + m + ' a csv file with def. options and escaped separators',
        function(done) {
            db = new NDDB();
            db[m](filename.escapeTesting, function() {
+               db.size().should.eql(4);
+               db.first();
+               db.next();
+               db.next().should.be.eql({
+                   A: '7,5',
+                   B: '8',
+                   C: '9',
+                   D: 'Z3'
+               });
+               done();
+           });
+
+       });
+
+    it('should ' + m + ' a csv file with def. options and escaped ' +
+       'separators, and no quotes.',
+
+       function(done) {
+           db = new NDDB();
+           db[m](filename.escapeTestingNoQuotes, function() {
                db.size().should.eql(4);
                db.first();
                db.next();
@@ -219,8 +289,8 @@ function getLoadTests(m, it) {
                 X4: 'D'
             });
             db.last().should.be.eql({
-                X1: '10',
-                X2: '11',
+                X1: 10,
+                X2: 11,
                 X3: '12',
                 X4: 'Z4'
             });
@@ -237,8 +307,8 @@ function getLoadTests(m, it) {
                         r: 'D'
                     });
                     db.last().should.be.eql({
-                        q: '10',
-                        w: '11',
+                        q: 10,
+                        w: 11,
                         e: '12',
                         r: 'Z4'
                     });
@@ -268,8 +338,8 @@ function getLoadTests(m, it) {
                                     X4: 'Z1'
                                 });
                                 db.last().should.be.eql({
-                                    X1: '10',
-                                    B:  '11',
+                                    X1: 10,
+                                    B:  11,
                                     k:  '12',
                                     X4: 'Z4'
                                 });
@@ -287,8 +357,8 @@ function getLoadTests(m, it) {
                                         X4: 'D'
                                     });
                                     db.last().should.be.eql({
-                                        X1: '10',
-                                        B:  '11',
+                                        X1: 10,
+                                        B:  11,
                                         k:  '12',
                                         X4: 'Z4'
                                     });
@@ -313,6 +383,25 @@ function getSaveTests(m, it) {
             db2 = new NDDB();
             db[m](filename.temp(1), function() {
                 db2.load(filename.temp(1), function() {
+                    db2.size().should.eql(4);
+                    db2.last().should.be.eql(lastItem);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('should load, ' + m + ', and reload a csv file using a small buffer',
+        function(done) {
+        var options;
+        options = { bufferSize: 16 };
+
+        db = new NDDB();
+        db.load(filename.standard, options, function() {
+            db.size().should.eql(4);
+            db2 = new NDDB();
+            db[m](filename.temp(1), options, function() {
+                db2.load(filename.temp(1), options, function() {
                     db2.size().should.eql(4);
                     db2.last().should.be.eql(lastItem);
                     done();
@@ -353,7 +442,7 @@ function getSaveTests(m, it) {
                         db2.size().should.eql(4);
                         db2.last().should.be.eql({
                             A: '40',
-                            B: '11',
+                            B: 11,
                             C: '48',
                             D: 'Z4'
                         });
@@ -364,8 +453,8 @@ function getSaveTests(m, it) {
         }
     );
 
-    it('should load, ' + m + ', and reload a csv file with several pre-defined'
-        + 'headers', function(done) {
+    it('should load, ' + m + ', and reload a csv file with several '
+        + 'pre-defined headers', function(done) {
             db = new NDDB();
             db.loadSync(filename.standard);
             db.size().should.eql(4);
@@ -386,8 +475,8 @@ function getSaveTests(m, it) {
                         db2.loadSync(filename.temp(3));
                         db2.size().should.eql(4);
                         db2.last().should.be.eql({
-                            A: '10',
-                            B: '11',
+                            A: 10,
+                            B: 11,
                             C: '12'
                         });
                         db2 = new NDDB();
@@ -404,8 +493,8 @@ function getSaveTests(m, it) {
                                 X4: 'D'
                             });
                             db2.last().should.be.eql({
-                                X1: '10',
-                                X2: '11',
+                                X1: 10,
+                                X2: 11,
                                 X3: '12',
                                 X4: 'Z4'
                             });

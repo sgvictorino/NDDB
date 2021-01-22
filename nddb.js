@@ -3150,6 +3150,42 @@
         }
         return outs;
     };
+    
+    /**
+     * ### NDDB.groupedMap
+     *
+     * Returns a Map of the form Map<value, [matchingItems]>. 
+     *
+     * Examples
+     *
+     * ```javascript
+     * var db = new NDDB();
+     * var items = [{a:1, b:2}, {a:3, b:2}, {a:3, b:4}, {a:5, c:6}];
+     * db.importDB(items);
+     *
+     * var grouped = db.groupedMap('b'); // Map(3) { 2 => [ {a:1, b:2}, {a:3, b:2} ], 4 => [ {a:3, b:4} ], undefined => [ {a:5, c:6} ] }
+     *
+     * grouped.get(2); // [ { a: 1, b: 2 }, { a: 3, b: 2 } ]
+     *
+     * grouped.get(undefined); // [ { a: 5, c: 6 } ]
+     * ```
+     *
+     * @param {string} key The column for grouping
+     *
+     * @return {Map} out The grouped items
+     */
+    NDDB.prototype.groupedMap = function(key) {
+        var out, db;
+        db = this.fetch();
+        if (!key) return db;
+
+        out = new Map();
+        for (const item of db) {
+            const value = item[key];
+            out.set(value, (out.get(value) ?? []).concat(item))
+        }
+        return out;
+    };
 
     // ## Statistics
 

@@ -4404,14 +4404,14 @@
      * Gets the entry from database with the given id
      *
      * @param {mixed} idx The id of the item to get
-     * @return {object|boolean} The indexed entry, or FALSE if index is invalid
+     * @return {object|undefined} The indexed entry, or undefined if index is invalid
      *
      * @see NDDB.index
      * @see NDDBIndex.remove
      * @see NDDBIndex.update
      */
     NDDBIndex.prototype.get = function(idx) {
-        if ('undefined' === typeof this.resolve[idx]) return false;
+        if ('undefined' === typeof this.resolve[idx]) return undefined;
         return this.nddb.db[this.resolve[idx]];
     };
 

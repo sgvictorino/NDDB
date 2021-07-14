@@ -15,11 +15,11 @@
   "author": "Stefano Balietti <futur.dorko@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "es5-shim": ">= 4.1.10",
-    "shelf.js": ">= 0.3.2",
     "commander": ">= 2.8.1",
-    "smoosh": "0.4.0",
-    "JSUS": ">= 0.10.0"
+    "es5-shim": ">= 4.1.10",
+    "JSUS": "github:sgvictorino/JSUS#wip",
+    "shelf.js": ">= 0.3.2",
+    "smoosh": "0.4.0"
   },
   "devDependencies": {
     "mocha": "^6.1.1",
